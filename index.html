@@ -95,13 +95,12 @@
             width: 100%;
             height: 100vh;
             overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         #livre-container {
             width: 100%; height: 100%;
             background: #f4f5f7;
-            border-radius: 0;
-            box-shadow: none;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -113,7 +112,7 @@
             flex-direction: column;
             flex: 1;
             background-color: #f4f5f7;
-            padding: 6px;
+            padding: 8px;
             box-sizing: border-box;
             overflow: hidden;
             height: 100%;
@@ -128,7 +127,7 @@
             border-radius: 6px;
             justify-content: center;
             flex-shrink: 0;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .header-patch {
@@ -136,7 +135,7 @@
             border-bottom: 2.5px solid #e66400; padding: 6px 8px; gap: 6px;
             background: #ffffff; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             flex-shrink: 0;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .header-patch.mooer-header {
@@ -144,7 +143,7 @@
         }
 
         .header-patch h2 { 
-            margin: 0; color: #e66400; font-size: 14px; 
+            margin: 0; color: #e66400; font-size: 13px; 
             white-space: nowrap;
         }
         
@@ -153,18 +152,18 @@
         }
 
         .header-inputs {
-            display: flex; gap: 6px; width: 68%; justify-content: flex-end; align-items: center;
+            display: flex; gap: 6px; width: 65%; justify-content: flex-end; align-items: center;
         }
 
         .input-patch-name {
             flex: 1; font-weight: bold; font-size: 12px;
-            border: 1px solid #ccc; border-radius: 4px; padding: 6px 8px;
-            min-width: 0;
+            border: 1px solid #ccc; border-radius: 4px; padding: 4px 6px;
+            min-width: 0; background: #fff;
         }
 
         .input-patch-slot {
-            width: 48px; font-weight: bold; font-size: 12px; text-align: center;
-            border: 1px solid #ccc; border-radius: 4px; padding: 6px 4px;
+            width: 42px; font-weight: bold; font-size: 12px; text-align: center;
+            border: 1px solid #ccc; border-radius: 4px; padding: 4px 2px;
             background-color: #fff; color: #d35400;
         }
 
@@ -174,20 +173,23 @@
             -webkit-overflow-scrolling: touch;
             display: flex;
             flex-direction: column;
-            gap: 6px;
-            padding-bottom: 6px;
+            gap: 8px;
+            padding-bottom: 8px;
             min-height: 0;
         }
 
         .grid-effets {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
         }
 
         .bloc-effet {
-            border: 1px solid #dcdcdc; padding: 6px 7px;
+            border: 1px solid #dcdcdc; padding: 8px;
             border-radius: 8px; background: #ffffff;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
         .bloc-effet-bottom {
@@ -196,7 +198,6 @@
             border-radius: 8px; 
             background: #ffffff;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            margin-top: 4px;
             display: flex;
             flex-direction: column;
             gap: 6px;
@@ -205,7 +206,7 @@
 
         .titre-effet {
             font-weight: bold; font-size: 10px; display: block;
-            border-bottom: 1px solid #eee; margin-bottom: 4px; padding-bottom: 2px;
+            border-bottom: 1px solid #eee; padding-bottom: 2px;
             text-transform: uppercase;
         }
 
@@ -213,9 +214,8 @@
         .bloc-effet .champ-ligne {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            font-size: 10px;
-            margin-bottom: 4px;
+            gap: 2px;
+            font-size: 11px;
         }
 
         .bloc-effet .champ-ligne > span {
@@ -229,10 +229,9 @@
         .bloc-effet-bottom .champ-ligne {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6px;
+            gap: 8px;
             align-items: center;
-            font-size: 10px;
-            margin-bottom: 4px;
+            font-size: 11px;
         }
 
         .bloc-effet-bottom .champ-ligne > span {
@@ -247,62 +246,44 @@
         }
 
         select {
-            flex: 1; min-width: 0; font-size: 9px; padding: 3px; border: 1px solid #ccc; border-radius: 3px;
+            flex: 1; min-width: 0; font-size: 11px; padding: 4px; border: 1px solid #ccc; border-radius: 4px; background: #fff;
         }
 
         .btn-add-option {
             background: #27ae60; color: white; border: none;
-            border-radius: 3px; font-weight: bold; cursor: pointer;
-            padding: 3px 6px; font-size: 9px; flex-shrink: 0;
+            border-radius: 4px; font-weight: bold; cursor: pointer;
+            padding: 4px 8px; font-size: 11px; flex-shrink: 0;
         }
 
         input[type="text"] {
-            padding: 3px 4px; font-size: 9px; border: 1px solid #ccc; border-radius: 3px;
+            padding: 4px 6px; font-size: 11px; border: 1px solid #ccc; border-radius: 4px; background: #fff;
         }
 
         input.val-c { 
-            width: 38px; 
+            width: 42px; 
             text-align: center; 
             font-size: 11px; 
             font-weight: bold; 
-            padding: 3px 2px; 
+            padding: 4px 2px; 
             background: #fdfdfd;
-            border: 1.5px solid #bbb;
-        }
-
-        @supports (-webkit-touch-callout: none) {
-            input[type="text"], select {
-                font-size: 16px;
-                transform: scale(0.65);
-                transform-origin: left center;
-                width: 150%;
-                margin-right: -50%;
-            }
-            .input-patch-name, .input-patch-slot {
-                transform: scale(0.65);
-                transform-origin: center center;
-            }
-            input.val-c {
-                transform: scale(0.75);
-                transform-origin: center center;
-                width: 50px;
-            }
+            border: 1px solid #bbb;
         }
 
         .effect-chain-box {
             border: 1.5px solid #27ae60;
             border-radius: 8px;
             background: #f0fdf4;
-            padding: 6px;
-            margin-top: 4px;
+            padding: 8px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
         .effect-chain-title {
-            font-size: 9px;
+            font-size: 10px;
             font-weight: bold;
             color: #27ae60;
-            margin-bottom: 4px;
             display: block;
             text-transform: uppercase;
         }
@@ -316,44 +297,37 @@
             border-radius: 6px;
             padding: 4px;
             gap: 4px;
-            min-height: 48px;
+            min-height: 44px;
             user-select: none;
             -webkit-user-select: none;
         }
 
         .effect-card {
             flex: 1;
-            height: 36px;
+            height: 34px;
             background: #27ae60;
             color: white;
-            font-size: 8px;
+            font-size: 9px;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: grab;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
             touch-action: none;
-            transition: transform 0.15s ease, background 0.15s ease;
-        }
-
-        .effect-card:active {
-            cursor: grabbing;
-            transform: scale(1.05);
-            background: #1e8449;
         }
 
         .effect-card.dragging {
-            opacity: 0.35;
+            opacity: 0.4;
         }
 
         .bande-navigation {
             display: flex; 
             justify-content: space-between; 
             align-items: center;
-            padding: 10px 8px; 
+            padding: 8px; 
             border-top: 1px solid #ddd;
             gap: 4px;
             background: #e4e7eb;
@@ -374,23 +348,22 @@
 
         .btn-nav {
             background: #007aff; color: white; border: none;
-            padding: 10px 16px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+            padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer;
         }
 
         .btn-add-boss {
             background: #e66400; color: white; border: none;
-            padding: 8px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            padding: 6px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
         }
 
         .btn-add-mooer {
             background: #27ae60; color: white; border: none;
-            padding: 8px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            padding: 6px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
         }
 
         .btn-del-page {
             background: #c0392b; color: white; border: none;
-            padding: 8px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            padding: 6px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
         }
 
         .modal {
@@ -564,15 +537,15 @@
                 <div class="champ-ligne">
                     <span style="gap: 4px; justify-content: flex-start;">
                         Reverb: 
-                        <select style="width: 55px; margin-left: 6px;">
+                        <select style="width: 60px; margin-left: 6px;">
                             <option value="HALL">HALL</option>
                             <option value="ROOM">ROOM</option>
                             <option value="SPRING">SPRING</option>
                         </select>
                         <input type="text" class="val-c" value="25" style="margin-left: 4px;">
                     </span>
-                    <span style="padding-left: 12px;">Pedal FX: 
-                        <select style="width: 75%; margin-left: 4px;">
+                    <span style="padding-left: 8px;">Pedal FX: 
+                        <select style="width: 80%; margin-left: 4px;">
                             <option value="WAH">WAH</option>
                             <option value="+1OCT">+1OCT</option>
                             <option value="-1OCT">-1OCT</option>
@@ -1033,7 +1006,7 @@ function importJSON(event) {
                             </div>
                             <div class="bloc-effet-bottom">
                                 <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
-                                <div class="champ-ligne"><span style="gap: 4px; justify-content: flex-start;">Reverb: <select style="width: 55px; margin-left: 6px;"></select><input type="text" class="val-c" style="margin-left: 4px;"></span><span style="padding-left: 12px;">Pedal FX: <select style="width: 75%; margin-left: 4px;"></select></span></div>
+                                <div class="champ-ligne"><span style="gap: 4px; justify-content: flex-start;">Reverb: <select style="width: 60px; margin-left: 6px;"></select><input type="text" class="val-c" style="margin-left: 4px;"></span><span style="padding-left: 8px;">Pedal FX: <select style="width: 80%; margin-left: 4px;"></select></span></div>
                                 <div class="champ-ligne"><span>NS (Thresh): <input type="text" class="val-c"></span><span>Master Vol: <input type="text" class="val-c"></span></div>
                             </div>
                         </div>
