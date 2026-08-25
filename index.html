@@ -291,17 +291,8 @@
             display: flex; width: 100%; gap: 2px; align-items: center; 
         }
 
-        /* Tous les rectangles de sélection ont désormais une largeur fixe et large (ex: 140px) */
-        select, .select-target {
-            width: 140px !important;
-            min-width: 140px !important;
-            flex: 0 0 140px !important;
-            font-size: 10px; 
-            padding: 3px; 
-            border: 1px solid #ccc; 
-            border-radius: 4px; 
-            background: #fff;
-            box-sizing: border-box;
+        select {
+            flex: 1; min-width: 0; font-size: 10px; padding: 3px; border: 1px solid #ccc; border-radius: 4px; background: #fff;
         }
 
         .btn-add-option {
@@ -627,7 +618,7 @@
                 <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
                 <div class="champ-ligne">
                     <span>Reverb: 
-                        <select class="select-target">
+                        <select style="width: 100%;">
                             <option value="HALL">HALL</option>
                             <option value="ROOM">ROOM</option>
                             <option value="SPRING">SPRING</option>
@@ -635,7 +626,7 @@
                         <input type="text" class="val-c" value="25">
                     </span>
                     <span>Pedal FX: 
-                        <select class="select-target">
+                        <select style="width: 100%;">
                             <option value="WAH">WAH</option>
                             <option value="+1OCT">+1OCT</option>
                             <option value="-1OCT">-1OCT</option>
@@ -1026,6 +1017,7 @@ function deleteCurrentPage() {
         return;
     }
     
+    // Trouver la page actuellement visible
     let visiblePage = Array.from(allPages).find(p => p.style.display === 'flex');
     if (visiblePage) {
         visiblePage.remove();
@@ -1114,7 +1106,7 @@ function importJSON(event) {
                             </div>
                             <div class="bloc-effet-bottom">
                                 <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
-                                <div class="champ-ligne"><span>Reverb: <select class="select-target"></select><input type="text" class="val-c"></span><span>Pedal FX: <select class="select-target"></select></span></div>
+                                <div class="champ-ligne"><span>Reverb: <select style="width: 100%;"></select><input type="text" class="val-c"></span><span>Pedal FX: <select style="width: 100%;"></select></span></div>
                                 <div class="champ-ligne"><span>NS (Thresh): <input type="text" class="val-c"></span><span>Master Vol: <input type="text" class="val-c"></span></div>
                             </div>
                         </div>
