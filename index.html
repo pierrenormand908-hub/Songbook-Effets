@@ -21,7 +21,7 @@
             if (currentFilter === 'boss') {
                 return pages.filter(p => p.getAttribute('data-type') === 'boss');
             } else if (currentFilter === 'mooer') {
-                return pages.filter(p => p.getAttribute('data-type') === 'mooer');
+                return pages.filter(p => p.getAttribute('data-type') === 'mooer' || p.getAttribute('data-type') === 'mooer-empty');
             }
             return pages;
         }
@@ -656,6 +656,44 @@
         </div>
     </div>
 
+    <!-- PAGE VIDE PERMANENTE POUR MOOER -->
+    <div class="page" data-type="mooer-empty">
+        <div class="toolbar-interne">
+            <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
+            <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
+        </div>
+
+        <div class="header-patch mooer-header">
+            <h2>Mooer P1 - Page Vide</h2>
+            <div class="header-inputs">
+                <input type="text" class="input-patch-name" placeholder="Vide" readonly>
+                <input type="text" class="input-patch-slot" placeholder="---" readonly>
+            </div>
+        </div>
+
+        <div class="page-contenu-interne" style="display: flex; align-items: center; justify-content: center; text-align: center; color: #7f8c8d;">
+            <div>
+                <h3 style="color: #27ae60; margin-bottom: 8px;">Aucune page Mooer supplémentaire</h3>
+                <p style="font-size: 11px; margin: 0;">Cliquez sur <b>"+ Mooer"</b> ci-dessous pour ajouter un nouveau patch.</p>
+            </div>
+        </div>
+
+        <div class="bande-navigation">
+            <div class="nav-ligne-haut">
+                <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
+                <button class="btn-filter-boss" onclick="filterAndNavigate('boss')">BOSS</button>
+                <button class="btn-filter-mooer" onclick="filterAndNavigate('mooer')">MOOER</button>
+                <span class="page-indicator" style="font-size: 11px; font-weight: bold; color: #333; min-width: 36px; text-align: center;">Page</span>
+                <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
+            </div>
+            <div class="nav-ligne-bas">
+                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+            </div>
+        </div>
+    </div>
+
     <!-- PAGE MODÈLE CACHÉE POUR MOOER PRIME P1 -->
     <template id="template-mooer">
         <div class="page" data-type="mooer">
@@ -1010,15 +1048,21 @@ function addNewMooerPage() {
 
 function deleteCurrentPage() {
     const container = document.getElementById("livre-container");
-    const allPages = container.querySelectorAll(".page");
     
-    if (allPages.length <= 1) {
-        alert("Impossible de supprimer la seule page restante.");
+    // Trouver la page actuellement visible
+    let visiblePage = Array.from(container.querySelectorAll(".page")).find(p => p.style.display === 'flex');
+    
+    if (visiblePage && visiblePage.getAttribute('data-type') === 'mooer-empty') {
+        alert("Impossible de supprimer la page vide permanente de Mooer.");
+        return;
+    }
+
+    const allPages = container.querySelectorAll(".page");
+    if (allPages.length <= 2) { // 1 Boss + 1 Mooer vide minimum
+        alert("Impossible de supprimer cette page.");
         return;
     }
     
-    // Trouver la page actuellement visible
-    let visiblePage = Array.from(allPages).find(p => p.style.display === 'flex');
     if (visiblePage) {
         visiblePage.remove();
     }
@@ -1033,6 +1077,9 @@ function exportJSON() {
 
     pages.forEach((page, index) => {
         const pageType = page.getAttribute('data-type');
+        // On ignore la page vide de base lors de l'export pour ne garder que les vraies données
+        if (pageType === 'mooer-empty') return;
+
         const inputs = Array.from(page.querySelectorAll('input[type="text"]')).map(input => input.value);
         
         const selects = Array.from(page.querySelectorAll('select')).map(select => {
@@ -1077,7 +1124,48 @@ function importJSON(event) {
             if (!Array.isArray(songbookData)) throw new Error("Format JSON invalide");
 
             const container = document.getElementById("livre-container");
+            
+            // On retire toutes les pages existantes sauf la page vide Mooer de base et la page Boss initiale si on veut repartir propre, ou on reconstruit tout en remettant la page vide
             container.innerHTML = "";
+
+            // Ré-injecter la page vide permanente Mooer en premier
+            const emptyMooerHtml = `
+            <div class="page" data-type="mooer-empty">
+                <div class="toolbar-interne">
+                    <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
+                    <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
+                </div>
+                <div class="header-patch mooer-header">
+                    <h2>Mooer P1 - Page Vide</h2>
+                    <div class="header-inputs">
+                        <input type="text" class="input-patch-name" placeholder="Vide" readonly>
+                        <input type="text" class="input-patch-slot" placeholder="---" readonly>
+                    </div>
+                </div>
+                <div class="page-contenu-interne" style="display: flex; align-items: center; justify-content: center; text-align: center; color: #7f8c8d;">
+                    <div>
+                        <h3 style="color: #27ae60; margin-bottom: 8px;">Aucune page Mooer supplémentaire</h3>
+                        <p style="font-size: 11px; margin: 0;">Cliquez sur <b>"+ Mooer"</b> ci-dessous pour ajouter un nouveau patch.</p>
+                    </div>
+                </div>
+                <div class="bande-navigation">
+                    <div class="nav-ligne-haut">
+                        <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
+                        <button class="btn-filter-boss" onclick="filterAndNavigate('boss')">BOSS</button>
+                        <button class="btn-filter-mooer" onclick="filterAndNavigate('mooer')">MOOER</button>
+                        <span class="page-indicator" style="font-size: 11px; font-weight: bold; color: #333; min-width: 36px; text-align: center;">Page</span>
+                        <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
+                    </div>
+                    <div class="nav-ligne-bas">
+                        <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                        <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                        <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+                    </div>
+                </div>
+            </div>`;
+            const divEmpty = document.createElement('div');
+            divEmpty.innerHTML = emptyMooerHtml.trim();
+            container.appendChild(divEmpty.firstChild);
 
             songbookData.forEach(pageData => {
                 let newPage;
@@ -1144,7 +1232,7 @@ function importJSON(event) {
                     if (pageData.selects[idx]) {
                         select.innerHTML = '';
                         pageData.selects[idx].options.forEach(optVal => {
-                            const opt = document.createElement('option');
+                            const opt = document.option = document.createElement('option');
                             opt.value = optVal;
                             opt.textContent = optVal;
                             select.appendChild(opt);
