@@ -86,66 +86,25 @@
     </script>
 
     <style>
-      <style>
-    /* === COLLEZ VOS NOUVEAUX STYLES ICI === */
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-    body, html {
-        width: 100%;
-        min-height: 100vh;
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f9;
-    }
-    .main-container, .container {
-        width: 100%;
-        max-width: 100%;
-        min-height: 100vh;
-        padding: 15px;
-        background-color: #ffffff;
-    }
-    .header-top, .top-bar {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-    h1, .app-title {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 8px;
-    }
-    .location, .sub-header {
-        font-size: 1.1rem;
-        color: #666;
-    }
-    /* ===================================== */
-
-    /* Vos styles actuels continuent ici... */
-    body {
-        background-color: #121212;
-        ...
-
         body {
             display: flex; flex-direction: column; justify-content: stretch; align-items: stretch;
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
+            background-color: #f4f5f7; /* Fond corrigé pour éviter le noir */
+            margin: 0;
+            width: 100%;
+            min-height: 100vh;
         }
 
         #livre-container {
             width: 100%; height: 100%;
-            background: #1a1a1a;
+            background: #f4f5f7; /* Fond corrigé pour éviter le noir */
             border-radius: 0;
             box-shadow: none;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            flex: 1;
         }
 
         .page {
@@ -250,7 +209,7 @@
         }
 
         .select-container {
-            display: flex; width: 78px; gap: 2px; align-items: center;
+            display: flex; width: 85px; gap: 6px; align-items: center; /* Ajout d'une distance entre la sélection et le + */
         }
 
         select {
@@ -260,7 +219,7 @@
         .btn-add-option {
             background: #27ae60; color: white; border: none;
             border-radius: 3px; font-weight: bold; cursor: pointer;
-            padding: 2px 5px; font-size: 9px; flex-shrink: 0;
+            padding: 3px 6px; font-size: 9px; flex-shrink: 0;
         }
 
         input[type="text"] {
