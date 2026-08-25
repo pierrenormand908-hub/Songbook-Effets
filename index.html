@@ -46,12 +46,12 @@
 
         let startX = 0;
         container.addEventListener('touchstart', function(e) {
-            if (e.target.closest('.effect-chain-box')) return;
+            if (e.target.closest('.effect-chain-box') || e.target.closest('.page-contenu-interne')) return;
             startX = e.touches[0].clientX;
         }, {passive: true});
 
         container.addEventListener('touchend', function(e) {
-            if (e.target.closest('.effect-chain-box')) return;
+            if (e.target.closest('.effect-chain-box') || e.target.closest('.page-contenu-interne')) return;
             let endX = e.changedTouches[0].clientX;
             let diff = startX - endX;
             let pages = getPages();
@@ -90,15 +90,16 @@
             display: flex; flex-direction: column; justify-content: stretch; align-items: stretch;
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
-            background-color: #f4f5f7; /* Fond corrigé pour éviter le noir */
+            background-color: #f4f5f7;
             margin: 0;
             width: 100%;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
         }
 
         #livre-container {
             width: 100%; height: 100%;
-            background: #f4f5f7; /* Fond corrigé pour éviter le noir */
+            background: #f4f5f7;
             border-radius: 0;
             box-shadow: none;
             display: flex;
@@ -107,26 +108,17 @@
             flex: 1;
         }
 
+        /* Structure fixe haut/bas et défilement au milieu */
         .page {
             display: none;
             flex-direction: column;
             flex: 1;
             background-color: #f4f5f7;
             padding: 6px;
-            border-radius: 0;
+            box-sizing: border-box;
             overflow: hidden;
             height: 100%;
             width: 100%;
-        }
-
-        .page-contenu-interne {
-            flex: 1;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            padding-bottom: 4px;
         }
 
         .toolbar-interne {
@@ -140,22 +132,12 @@
             margin-bottom: 4px;
         }
 
-        .btn-toolbar {
-            background: #2c3e50;
-            color: #ffffff;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* En-tête du patch grossi verticalement */
         .header-patch {
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 2.5px solid #e66400; padding: 6px 8px; gap: 6px;
             background: #ffffff; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            flex-shrink: 0;
+            margin-bottom: 4px;
         }
 
         .header-patch.mooer-header {
@@ -187,6 +169,18 @@
             background-color: #fff; color: #d35400;
         }
 
+        /* Zone centrale défilante */
+        .page-contenu-interne {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-bottom: 6px;
+            min-height: 0;
+        }
+
         .grid-effets {
             display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
         }
@@ -197,6 +191,19 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
+        /* Bloc du bas agrandi pour éviter de cacher les textes */
+        .bloc-effet-bottom {
+            border: 1.5px solid #dcdcdc; 
+            padding: 8px 10px;
+            border-radius: 8px; 
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-top: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
         .titre-effet {
             font-weight: bold; font-size: 10px; display: block;
             border-bottom: 1px solid #eee; margin-bottom: 4px; padding-bottom: 2px;
@@ -205,15 +212,16 @@
 
         .champ-ligne {
             display: flex; justify-content: space-between; align-items: center;
-            font-size: 10px; margin-bottom: 5px; flex-wrap: wrap; gap: 3px;
+            font-size: 10px; margin-bottom: 5px; flex-wrap: wrap; gap: 4px;
         }
 
+        /* Espacement corrigé entre le select et le bouton + */
         .select-container {
-            display: flex; width: 85px; gap: 6px; align-items: center; /* Ajout d'une distance entre la sélection et le + */
+            display: flex; width: 110px; gap: 8px; align-items: center; 
         }
 
         select {
-            width: 100%; font-size: 9px; padding: 2px; border: 1px solid #ccc; border-radius: 3px;
+            flex: 1; min-width: 0; font-size: 9px; padding: 3px; border: 1px solid #ccc; border-radius: 3px;
         }
 
         .btn-add-option {
@@ -314,7 +322,7 @@
             opacity: 0.35;
         }
 
-        /* Barre de navigation verticale grossie pour ne plus perdre les flèches */
+        /* Barre de navigation fixe en bas */
         .bande-navigation {
             display: flex; 
             justify-content: space-between; 
@@ -325,6 +333,17 @@
             background: #e4e7eb;
             flex-shrink: 0;
             margin-top: auto;
+        }
+
+        .btn-toolbar {
+            background: #2c3e50;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         .btn-nav {
@@ -388,15 +407,15 @@
             <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
         </div>
 
-        <div class="page-contenu-interne">
-            <div class="header-patch">
-                <h2>Boss ME-80</h2>
-                <div class="header-inputs">
-                    <input type="text" class="input-patch-name" value="Distortion 1.0" placeholder="Nom...">
-                    <input type="text" class="input-patch-slot" value="U1-1" placeholder="Empl.">
-                </div>
+        <div class="header-patch">
+            <h2>Boss ME-80</h2>
+            <div class="header-inputs">
+                <input type="text" class="input-patch-name" value="Distortion 1.0" placeholder="Nom...">
+                <input type="text" class="input-patch-slot" value="U1-1" placeholder="Empl.">
             </div>
+        </div>
 
+        <div class="page-contenu-interne">
             <div class="grid-effets">
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #d35400;">COMP / FX1</span>
@@ -506,11 +525,11 @@
                 </div>
             </div>
 
-            <div class="bloc-effet" style="margin-top: 2px;">
+            <div class="bloc-effet-bottom">
                 <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
                 <div class="champ-ligne">
                     <span>Reverb: 
-                        <select style="width: 50px;">
+                        <select style="width: 55px;">
                             <option value="HALL">HALL</option>
                             <option value="ROOM">ROOM</option>
                             <option value="SPRING">SPRING</option>
@@ -518,7 +537,7 @@
                         <input type="text" class="val-c" value="25">
                     </span>
                     <span>Pedal FX: 
-                        <select style="width: 50px;">
+                        <select style="width: 55px;">
                             <option value="WAH">WAH</option>
                             <option value="+1OCT">+1OCT</option>
                             <option value="-1OCT">-1OCT</option>
@@ -550,15 +569,15 @@
                 <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
             </div>
 
-            <div class="page-contenu-interne">
-                <div class="header-patch mooer-header">
-                    <h2>Mooer P1</h2>
-                    <div class="header-inputs">
-                        <input type="text" class="input-patch-name" placeholder="Nom...">
-                        <input type="text" class="input-patch-slot" placeholder="A-1">
-                    </div>
+            <div class="header-patch mooer-header">
+                <h2>Mooer P1</h2>
+                <div class="header-inputs">
+                    <input type="text" class="input-patch-name" placeholder="Nom...">
+                    <input type="text" class="input-patch-slot" placeholder="A-1">
                 </div>
+            </div>
 
+            <div class="page-contenu-interne">
                 <div class="grid-effets">
                     <!-- DYNA -->
                     <div class="bloc-effet">
@@ -949,14 +968,14 @@ function importJSON(event) {
                             <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
                             <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
                         </div>
-                        <div class="page-contenu-interne">
-                            <div class="header-patch">
-                                <h2>Boss ME-80</h2>
-                                <div class="header-inputs">
-                                    <input type="text" class="input-patch-name" placeholder="Nom...">
-                                    <input type="text" class="input-patch-slot" placeholder="Empl.">
-                                </div>
+                        <div class="header-patch">
+                            <h2>Boss ME-80</h2>
+                            <div class="header-inputs">
+                                <input type="text" class="input-patch-name" placeholder="Nom...">
+                                <input type="text" class="input-patch-slot" placeholder="Empl.">
                             </div>
+                        </div>
+                        <div class="page-contenu-interne">
                             <div class="grid-effets">
                                 <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">COMP / FX1</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Sustain: <input type="text" class="val-c"></span> <span>Attack: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
                                 <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD / DS</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Drive: <input type="text" class="val-c"></span> <span>Tone: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
@@ -965,9 +984,9 @@ function importJSON(event) {
                                 <div class="bloc-effet"><span class="titre-effet" style="color: #27ae60;">MODULATION</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate: <input type="text" class="val-c"></span> <span>Depth: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
                                 <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time: <input type="text" class="val-c"></span> <span>Feedback: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>E.Level: <input type="text" class="val-c"></span></div></div>
                             </div>
-                            <div class="bloc-effet" style="margin-top: 2px;">
+                            <div class="bloc-effet-bottom">
                                 <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
-                                <div class="champ-ligne"><span>Reverb: <select style="width: 50px;"></select><input type="text" class="val-c"></span><span>Pedal FX: <select style="width: 50px;"></select></span></div>
+                                <div class="champ-ligne"><span>Reverb: <select style="width: 55px;"></select><input type="text" class="val-c"></span><span>Pedal FX: <select style="width: 55px;"></select></span></div>
                                 <div class="champ-ligne"><span>NS (Thresh): <input type="text" class="val-c"></span><span>Master Vol: <input type="text" class="val-c"></span></div>
                             </div>
                         </div>
