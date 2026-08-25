@@ -291,7 +291,7 @@
             display: flex; width: 100%; gap: 2px; align-items: center; 
         }
 
-        /* Largeur fixe et large pour tous les rectangles de sélection de types */
+        /* Tous les rectangles de sélection ont désormais une largeur fixe et large (ex: 140px) */
         select, .select-target {
             width: 140px !important;
             min-width: 140px !important;
@@ -383,6 +383,7 @@
             opacity: 0.4;
         }
 
+        /* Barre de navigation élargie verticalement avec de gros boutons bien visibles */
         .bande-navigation {
             display: flex; 
             flex-direction: column;
@@ -859,28 +860,6 @@
         </div>
     </template>
 
-    <!-- ÉCRAN DE SECOURS BLANC AVEC BOUTON ENREGISTRER SI AUCUNE PAGE N'EXISTE -->
-    <div id="empty-filter-fallback" class="page" data-type="fallback" style="display: none; justify-content: center; align-items: center; text-align: center;">
-        <div class="page-contenu-interne" style="justify-content: center; align-items: center;">
-            <p style="font-size: 14px; color: #666; margin-bottom: 15px;" id="empty-fallback-text">Aucune page disponible pour ce filtre.</p>
-            <button class="btn-toolbar" style="padding: 12px 20px; font-size: 13px; background: #27ae60;" onclick="createPageFromFallback()">💾 Enregistrer la page</button>
-        </div>
-        <div class="bande-navigation">
-            <div class="nav-ligne-haut">
-                <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
-                <button class="btn-filter-boss" onclick="filterAndNavigate('boss')">BOSS</button>
-                <button class="btn-filter-mooer" onclick="filterAndNavigate('mooer')">MOOER</button>
-                <span class="page-indicator" style="font-size: 11px; font-weight: bold; color: #333; min-width: 36px; text-align: center;">0/0</span>
-                <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
-            </div>
-            <div class="nav-ligne-bas">
-                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
-                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
-                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <!-- Fenêtre Popup pour ajouter une option -->
@@ -900,129 +879,6 @@ var book;
 var activeSelectElement = null;
 
 window.addEventListener("DOMContentLoaded", function() {
-    // Modification ciblée du SimpleFlip pour gérer l'affichage de secours si 0 page
-    window.SimpleFlip = function(containerId) {
-        let container = document.getElementById(containerId);
-        let currentIndex = 0;
-        let currentFilter = 'all';
-
-        function getAllPages() {
-            return Array.from(container.querySelectorAll('.page:not(#empty-filter-fallback)'));
-        }
-
-        function getFilteredPages() {
-            let pages = getAllPages();
-            if (currentFilter === 'boss') {
-                return pages.filter(p => p.getAttribute('data-type') === 'boss');
-            } else if (currentFilter === 'mooer') {
-                return pages.filter(p => p.getAttribute('data-type') === 'mooer');
-            }
-            return pages;
-        }
-
-        function updatePages() {
-            let allPages = getAllPages();
-            let activePages = getFilteredPages();
-            let fallbackPage = document.getElementById('empty-filter-fallback');
-
-            allPages.forEach(page => {
-                page.style.display = 'none';
-                page.style.zIndex = '1';
-            });
-
-            if (fallbackPage) {
-                fallbackPage.style.display = 'none';
-                fallbackPage.style.zIndex = '1';
-            }
-
-            if (activePages.length === 0 && currentFilter !== 'all') {
-                if (fallbackPage) {
-                    fallbackPage.style.display = 'flex';
-                    fallbackPage.style.zIndex = '2';
-                    document.getElementById('empty-fallback-text').textContent = `Aucune page ${currentFilter.toUpperCase()} n'est disponible.`;
-                }
-            } else {
-                if (currentIndex >= activePages.length) {
-                    currentIndex = Math.max(0, activePages.length - 1);
-                }
-                if (activePages.length > 0) {
-                    let currentActivePage = activePages[currentIndex];
-                    if (currentActivePage) {
-                        currentActivePage.style.display = 'flex';
-                        currentActivePage.style.opacity = '1';
-                        currentActivePage.style.zIndex = '2';
-                    }
-                }
-            }
-            updateIndicators();
-        }
-
-        function updateIndicators() {
-            let activePages = getFilteredPages();
-            let indicators = container.querySelectorAll('.page-indicator');
-            indicators.forEach(indicator => {
-                if (activePages.length === 0) {
-                    indicator.textContent = `0/0`;
-                } else {
-                    indicator.textContent = `${currentIndex + 1}/${activePages.length}`;
-                }
-            });
-        }
-
-        let startX = 0;
-        container.addEventListener('touchstart', function(e) {
-            if (e.target.closest('.effect-chain-box') || e.target.closest('.page-contenu-interne')) return;
-            startX = e.touches[0].clientX;
-        }, {passive: true});
-
-        container.addEventListener('touchend', function(e) {
-            if (e.target.closest('.effect-chain-box') || e.target.closest('.page-contenu-interne')) return;
-            let endX = e.changedTouches[0].clientX;
-            let diff = startX - endX;
-            let activePages = getFilteredPages();
-            if (Math.abs(diff) > 40) {
-                if (diff > 0 && currentIndex < activePages.length - 1) {
-                    currentIndex++;
-                } else if (diff < 0 && currentIndex > 0) {
-                    currentIndex--;
-                }
-                updatePages();
-            }
-        }, {passive: true});
-
-        updatePages();
-
-        return {
-            next: () => { 
-                let activePages = getFilteredPages();
-                if(currentIndex < activePages.length - 1) { currentIndex++; updatePages(); } 
-            },
-            prev: () => { 
-                if(currentIndex > 0) { currentIndex--; updatePages(); } 
-            },
-            goToLast: () => {
-                let activePages = getFilteredPages();
-                currentIndex = Math.max(0, activePages.length - 1);
-                updatePages();
-            },
-            goToIndex: (idx) => {
-                let activePages = getFilteredPages();
-                if (idx >= 0 && idx < activePages.length) {
-                    currentIndex = idx;
-                    updatePages();
-                }
-            },
-            setFilter: (filterType) => {
-                currentFilter = filterType;
-                currentIndex = 0;
-                updatePages();
-            },
-            getCurrentFilter: () => currentFilter,
-            getCurrentIndex: () => currentIndex,
-            refresh: () => { updatePages(); }
-        };
-    };
-
     book = SimpleFlip("livre-container");
 
     const modalElem = document.getElementById("optionModal");
@@ -1034,17 +890,6 @@ window.addEventListener("DOMContentLoaded", function() {
 
 function filterAndNavigate(type) {
     book.setFilter(type);
-}
-
-function createPageFromFallback() {
-    const currentFilter = book.getCurrentFilter();
-    if (currentFilter === 'mooer') {
-        addNewMooerPage();
-    } else if (currentFilter === 'boss') {
-        addNewBossPage();
-    } else {
-        addNewBossPage();
-    }
 }
 
 function initDragAndDrop(parentElement) {
@@ -1174,7 +1019,7 @@ function addNewMooerPage() {
 
 function deleteCurrentPage() {
     const container = document.getElementById("livre-container");
-    const allPages = container.querySelectorAll(".page:not(#empty-filter-fallback)");
+    const allPages = container.querySelectorAll(".page");
     
     if (allPages.length <= 1) {
         alert("Impossible de supprimer la seule page restante.");
@@ -1191,7 +1036,7 @@ function deleteCurrentPage() {
 
 /* GESTION DE L'EXPORT ET DE L'IMPORTATION JSON */
 function exportJSON() {
-    const pages = document.querySelectorAll('#livre-container .page:not(#empty-filter-fallback)');
+    const pages = document.querySelectorAll('#livre-container .page');
     const songbookData = [];
 
     pages.forEach((page, index) => {
@@ -1240,10 +1085,7 @@ function importJSON(event) {
             if (!Array.isArray(songbookData)) throw new Error("Format JSON invalide");
 
             const container = document.getElementById("livre-container");
-            const fallbackElem = document.getElementById("empty-filter-fallback");
-            
-            // Retirer toutes les pages existantes sauf le fallback
-            container.querySelectorAll(".page:not(#empty-filter-fallback)").forEach(p => p.remove());
+            container.innerHTML = "";
 
             songbookData.forEach(pageData => {
                 let newPage;
@@ -1333,7 +1175,7 @@ function importJSON(event) {
                     }
                 }
 
-                container.insertBefore(newPage, fallbackElem);
+                container.appendChild(newPage);
             });
 
             initDragAndDrop(container);
