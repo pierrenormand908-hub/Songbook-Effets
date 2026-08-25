@@ -79,6 +79,13 @@
                 currentIndex = pages.length - 1;
                 updatePages();
             },
+            goToIndex: (idx) => {
+                let pages = getPages();
+                if (idx >= 0 && idx < pages.length) {
+                    currentIndex = idx;
+                    updatePages();
+                }
+            },
             getCurrentIndex: () => currentIndex,
             refresh: () => { updatePages(); }
         };
@@ -94,7 +101,7 @@
             margin: 0;
             width: 100%;
             height: 100vh;
-            overflow: hidden; /* Empêche tout scroll global ou horizontal de la page */
+            overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
@@ -169,8 +176,8 @@
 
         .page-contenu-interne {
             flex: 1;
-            overflow-y: auto; /* Seul le contenu défile verticalement */
-            overflow-x: hidden; /* Bloque strictement tout défilement horizontal */
+            overflow-y: auto;
+            overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
             display: flex;
             flex-direction: column;
@@ -181,7 +188,6 @@
             width: 100%;
         }
 
-        /* Grille sur 2 colonnes parfaitement ajustée sans débordement horizontal */
         .grid-effets {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -198,7 +204,7 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
-            min-width: 0; /* Empêche les éléments flexibles de dépasser de la grille */
+            min-width: 0;
         }
 
         .bloc-effet-bottom {
@@ -220,7 +226,6 @@
             text-transform: uppercase;
         }
 
-        /* Ligne disposant le nom du paramètre et le rectangle de saisie côte à côte */
         .bloc-effet .champ-ligne {
             display: flex;
             justify-content: space-between;
@@ -344,16 +349,26 @@
             opacity: 0.4;
         }
 
+        /* Barre de navigation élargie verticalement et agencée proprement */
         .bande-navigation {
             display: flex; 
-            justify-content: space-between; 
+            flex-direction: column;
+            justify-content: center; 
             align-items: center;
-            padding: 8px; 
+            padding: 10px 8px; 
             border-top: 1px solid #ddd;
-            gap: 4px;
+            gap: 6px;
             background: #e4e7eb;
             flex-shrink: 0;
             margin-top: auto;
+        }
+
+        .nav-ligne-haut, .nav-ligne-bas {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            gap: 4px;
         }
 
         .btn-toolbar {
@@ -369,22 +384,37 @@
 
         .btn-nav {
             background: #007aff; color: white; border: none;
-            padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: bold; cursor: pointer;
+            padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer;
+            flex: 1;
+        }
+
+        .btn-filter-boss {
+            background: #d35400; color: white; border: none;
+            padding: 6px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            flex: 1;
+        }
+
+        .btn-filter-mooer {
+            background: #27ae60; color: white; border: none;
+            padding: 6px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            flex: 1;
         }
 
         .btn-add-boss {
             background: #e66400; color: white; border: none;
-            padding: 6px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            padding: 6px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            flex: 1;
         }
 
         .btn-add-mooer {
             background: #27ae60; color: white; border: none;
-            padding: 6px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            padding: 6px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            flex: 1;
         }
 
         .btn-del-page {
             background: #c0392b; color: white; border: none;
-            padding: 6px 10px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            padding: 6px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
         }
 
         .modal {
@@ -580,12 +610,18 @@
         </div>
 
         <div class="bande-navigation">
-            <button class="btn-nav" onclick="book.prev()">◄</button>
-            <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
-            <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
-            <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
-            <span class="page-indicator" style="font-size: 10px; font-weight: bold; color: #333;">1/1</span>
-            <button class="btn-nav" onclick="book.next()">►</button>
+            <div class="nav-ligne-haut">
+                <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
+                <button class="btn-filter-boss" onclick="navigateToFirstType('boss')">BOSS</button>
+                <button class="btn-filter-mooer" onclick="navigateToFirstType('mooer')">MOOER</button>
+                <span class="page-indicator" style="font-size: 10px; font-weight: bold; color: #333; min-width: 30px; text-align: center;">1/1</span>
+                <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
+            </div>
+            <div class="nav-ligne-bas">
+                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+            </div>
         </div>
     </div>
 
@@ -768,12 +804,18 @@
             </div>
 
             <div class="bande-navigation">
-                <button class="btn-nav" onclick="book.prev()">◄</button>
-                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
-                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
-                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
-                <span class="page-indicator" style="font-size: 10px; font-weight: bold; color: #333;">Page</span>
-                <button class="btn-nav" onclick="book.next()">►</button>
+                <div class="nav-ligne-haut">
+                    <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
+                    <button class="btn-filter-boss" onclick="navigateToFirstType('boss')">BOSS</button>
+                    <button class="btn-filter-mooer" onclick="navigateToFirstType('mooer')">MOOER</button>
+                    <span class="page-indicator" style="font-size: 10px; font-weight: bold; color: #333; min-width: 30px; text-align: center;">Page</span>
+                    <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
+                </div>
+                <div class="nav-ligne-bas">
+                    <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                    <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                    <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+                </div>
             </div>
         </div>
     </template>
@@ -805,6 +847,25 @@ window.addEventListener("DOMContentLoaded", function() {
 
     initDragAndDrop(document);
 });
+
+function navigateToFirstType(type) {
+    const container = document.getElementById("livre-container");
+    const pages = container.querySelectorAll(".page");
+    let targetIndex = -1;
+
+    for (let i = 0; i < pages.length; i++) {
+        if (pages[i].getAttribute("data-type") === type) {
+            targetIndex = i;
+            break;
+        }
+    }
+
+    if (targetIndex !== -1) {
+        book.goToIndex(targetIndex);
+    } else {
+        alert("Aucune page " + type.toUpperCase() + " trouvée.");
+    }
+}
 
 function initDragAndDrop(parentElement) {
     const containers = parentElement.querySelectorAll('.effect-chain-container');
@@ -1031,12 +1092,18 @@ function importJSON(event) {
                             </div>
                         </div>
                         <div class="bande-navigation">
-                            <button class="btn-nav" onclick="book.prev()">◄</button>
-                            <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
-                            <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
-                            <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
-                            <span class="page-indicator" style="font-size: 10px; font-weight: bold; color: #333;">Page</span>
-                            <button class="btn-nav" onclick="book.next()">►</button>
+                            <div class="nav-ligne-haut">
+                                <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
+                                <button class="btn-filter-boss" onclick="navigateToFirstType('boss')">BOSS</button>
+                                <button class="btn-filter-mooer" onclick="navigateToFirstType('mooer')">MOOER</button>
+                                <span class="page-indicator" style="font-size: 10px; font-weight: bold; color: #333; min-width: 30px; text-align: center;">Page</span>
+                                <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
+                            </div>
+                            <div class="nav-ligne-bas">
+                                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+                            </div>
                         </div>
                     </div>`;
                     const div = document.createElement('div');
