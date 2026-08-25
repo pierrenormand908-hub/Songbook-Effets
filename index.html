@@ -87,37 +87,41 @@
 
     <style>
         * { box-sizing: border-box; }
-        body {
+        html, body {
             background-color: #121212;
             margin: 0; padding: 0;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            height: 100vh; width: 100vw; overflow: hidden;
+            width: 100%; height: 100%;
+            overflow: hidden;
             font-family: Arial, sans-serif;
             touch-action: pan-x pan-y;
         }
 
+        body {
+            display: flex; flex-direction: column; justify-content: stretch; align-items: stretch;
+        }
+
         #livre-container {
-            width: 100%; max-width: 380px; height: 92vh; max-height: 700px;
+            width: 100%; height: 100%;
             background: #1a1a1a;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            border-radius: 0;
+            box-shadow: none;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
-        /* Chaque page est un conteneur vertical Flexbox strict */
         .page {
             display: none;
             flex-direction: column;
             flex: 1;
             background-color: #f4f5f7;
-            padding: 8px;
-            border-radius: 12px;
+            padding: 6px;
+            border-radius: 0;
             overflow: hidden;
+            height: 100%;
+            width: 100%;
         }
 
-        /* La zone de contenu interne défile si elle est trop longue */
         .page-contenu-interne {
             flex: 1;
             overflow-y: auto;
@@ -128,7 +132,6 @@
             padding-bottom: 4px;
         }
 
-        /* Barre d'outils intégrée en haut de chaque page */
         .toolbar-interne {
             display: flex;
             gap: 6px;
@@ -203,11 +206,12 @@
 
         .champ-ligne {
             display: flex; justify-content: space-between; align-items: center;
-            font-size: 9.5px; margin-bottom: 4px; flex-wrap: wrap;
+            font-size: 10px; margin-bottom: 5px; flex-wrap: wrap; gap: 3px;
         }
 
+        /* Conteneur Type décalé vers la gauche pour laisser de la place au bouton + */
         .select-container {
-            display: flex; width: 90px; gap: 2px;
+            display: flex; width: 78px; gap: 2px; align-items: center;
         }
 
         select {
@@ -217,29 +221,43 @@
         .btn-add-option {
             background: #27ae60; color: white; border: none;
             border-radius: 3px; font-weight: bold; cursor: pointer;
-            padding: 0 4px; font-size: 8.5px;
+            padding: 2px 5px; font-size: 9px; flex-shrink: 0;
         }
 
         input[type="text"] {
             padding: 3px 4px; font-size: 9px; border: 1px solid #ccc; border-radius: 3px;
         }
 
-        /* Anti-Zoom iOS */
+        /* Champs de réglages grossis et bien lisibles */
+        input.val-c { 
+            width: 42px; 
+            text-align: center; 
+            font-size: 11px; 
+            font-weight: bold; 
+            padding: 3px 2px; 
+            background: #fdfdfd;
+            border: 1.5px solid #bbb;
+        }
+
+        /* Anti-Zoom iOS sur les champs */
         @supports (-webkit-touch-callout: none) {
             input[type="text"], select {
                 font-size: 16px;
-                transform: scale(0.56);
+                transform: scale(0.65);
                 transform-origin: left center;
-                width: 178%;
-                margin-right: -78%;
+                width: 150%;
+                margin-right: -50%;
             }
-            .input-patch-name, .input-patch-slot, input.val-c {
-                transform: scale(0.56);
+            .input-patch-name, .input-patch-slot {
+                transform: scale(0.65);
                 transform-origin: center center;
             }
+            input.val-c {
+                transform: scale(0.75);
+                transform-origin: center center;
+                width: 55px;
+            }
         }
-
-        input.val-c { width: 30px; text-align: center; }
 
         .effect-chain-box {
             border: 1.5px solid #27ae60;
@@ -300,7 +318,6 @@
             opacity: 0.35;
         }
 
-        /* Barre de navigation fixe par structure Flex (ne flotte plus de manière aléatoire) */
         .bande-navigation {
             display: flex; 
             justify-content: space-between; 
