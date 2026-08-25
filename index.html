@@ -374,7 +374,6 @@
             opacity: 0.4;
         }
 
-        /* Barre de navigation élargie verticalement avec de gros boutons bien visibles */
         .bande-navigation {
             display: flex; 
             flex-direction: column;
@@ -656,7 +655,7 @@
         </div>
     </div>
 
-    <!-- PAGE VIDE PERMANENTE POUR MOOER -->
+    <!-- PAGE DE DÉPART PERMANENTE POUR MOOER (MODE MODÈLE) -->
     <div class="page" data-type="mooer-empty">
         <div class="toolbar-interne">
             <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
@@ -664,17 +663,172 @@
         </div>
 
         <div class="header-patch mooer-header">
-            <h2>Mooer P1 - Page Vide</h2>
+            <h2>Mooer P1</h2>
             <div class="header-inputs">
-                <input type="text" class="input-patch-name" placeholder="Vide" readonly>
-                <input type="text" class="input-patch-slot" placeholder="---" readonly>
+                <input type="text" class="input-patch-name" placeholder="Modèle de départ...">
+                <input type="text" class="input-patch-slot" placeholder="A-1">
             </div>
         </div>
 
-        <div class="page-contenu-interne" style="display: flex; align-items: center; justify-content: center; text-align: center; color: #7f8c8d;">
-            <div>
-                <h3 style="color: #27ae60; margin-bottom: 8px;">Aucune page Mooer supplémentaire</h3>
-                <p style="font-size: 11px; margin: 0;">Cliquez sur <b>"+ Mooer"</b> ci-dessous pour ajouter un nouveau patch.</p>
+        <div class="page-contenu-interne">
+            <div class="grid-effets">
+                <!-- DYNA -->
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #16a085;">DYNA</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="COMP">COMP</option>
+                                <option value="TOUCH WAH">TOUCH WAH</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne"><span>Thresh:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Peak:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Ratio:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Range:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Sens:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div>
+                </div>
+
+                <!-- OD -->
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #c0392b;">OD</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="TUBE DRIVE">TUBE DRIVE</option>
+                                <option value="Fuzz">Fuzz</option>
+                                <option value="DIST">DIST</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Vol:</span> <input type="text" class="val-c" value="50"></div>
+                </div>
+
+                <!-- AMP -->
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #d35400;">AMP</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="65 US TWIN">65 US TWIN</option>
+                                <option value="UK 800">UK 800</option>
+                                <option value="MALI 900">MALI 900</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Mid:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Treble:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Presence:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Master:</span> <input type="text" class="val-c" value="50"></div>
+                </div>
+
+                <!-- CAB -->
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #7f8c8d;">CAB</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="US 2x12">US 2x12</option>
+                                <option value="UK 4x12">UK 4x12</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MOD -->
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #2980b9;">MOD</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="CHORUS">CHORUS</option>
+                                <option value="FLANGER">FLANGER</option>
+                                <option value="PHASER">PHASER</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne"><span>Bit:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Mix:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Rise:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Sample:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Q:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div>
+                </div>
+
+                <!-- DELAY -->
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #8e44ad;">DELAY</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="DIGITAL">DIGITAL</option>
+                                <option value="ANALOG">ANALOG</option>
+                                <option value="TAPE">TAPE</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c" value="50"></div>
+                </div>
+            </div>
+
+            <!-- REVERBE -->
+            <div class="bloc-effet-bottom">
+                <span class="titre-effet" style="color: #27ae60;">REVERBE</span>
+                <div class="champ-ligne">
+                    <span>Type:</span>
+                    <div class="select-container">
+                        <select class="select-target">
+                            <option value="ROOM">ROOM</option>
+                            <option value="HALL">HALL</option>
+                            <option value="CHURCH">CHURCH</option>
+                        </select>
+                        <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                    </div>
+                </div>
+                <div class="champ-ligne"><span>Pre Delay:</span> <input type="text" class="val-c" value="50"></div>
+                <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div>
+                <div class="champ-ligne"><span>Decay:</span> <input type="text" class="val-c" value="50"></div>
+                <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c" value="50"></div>
+            </div>
+
+            <!-- CHAINE D'EFFETS DÉPLAÇABLE -->
+            <div class="effect-chain-box">
+                <span class="effect-chain-title">Ordre de la chaîne d'effets</span>
+                <div class="effect-chain-container">
+                    <div class="effect-card" draggable="true">DYNA</div>
+                    <div class="effect-card" draggable="true">OD</div>
+                    <div class="effect-card" draggable="true">AMP</div>
+                    <div class="effect-card" draggable="true">CAB</div>
+                    <div class="effect-card" draggable="true">MOD</div>
+                    <div class="effect-card" draggable="true">DELAY</div>
+                    <div class="effect-card" draggable="true">REVERBE</div>
+                </div>
             </div>
         </div>
 
@@ -694,7 +848,7 @@
         </div>
     </div>
 
-    <!-- PAGE MODÈLE CACHÉE POUR MOOER PRIME P1 -->
+    <!-- PAGE MODÈLE CACHÉE POUR NOUVEAUX MOOER -->
     <template id="template-mooer">
         <div class="page" data-type="mooer">
             <div class="toolbar-interne">
@@ -1048,17 +1202,15 @@ function addNewMooerPage() {
 
 function deleteCurrentPage() {
     const container = document.getElementById("livre-container");
-    
-    // Trouver la page actuellement visible
     let visiblePage = Array.from(container.querySelectorAll(".page")).find(p => p.style.display === 'flex');
     
     if (visiblePage && visiblePage.getAttribute('data-type') === 'mooer-empty') {
-        alert("Impossible de supprimer la page vide permanente de Mooer.");
+        alert("Impossible de supprimer la page de départ permanente de Mooer.");
         return;
     }
 
     const allPages = container.querySelectorAll(".page");
-    if (allPages.length <= 2) { // 1 Boss + 1 Mooer vide minimum
+    if (allPages.length <= 2) {
         alert("Impossible de supprimer cette page.");
         return;
     }
@@ -1075,10 +1227,10 @@ function exportJSON() {
     const pages = document.querySelectorAll('#livre-container .page');
     const songbookData = [];
 
-    pages.forEach((page, index) => {
+    pages.forEach((page) => {
         const pageType = page.getAttribute('data-type');
-        // On ignore la page vide de base lors de l'export pour ne garder que les vraies données
-        if (pageType === 'mooer-empty') return;
+        // Si c'est la page vide/modèle Mooer, on l'exporte avec son type 'mooer' réel pour qu'elle soit rechargée proprement
+        const exportType = (pageType === 'mooer-empty') ? 'mooer' : pageType;
 
         const inputs = Array.from(page.querySelectorAll('input[type="text"]')).map(input => input.value);
         
@@ -1097,7 +1249,7 @@ function exportJSON() {
         }
 
         songbookData.push({
-            type: pageType,
+            type: exportType,
             inputs: inputs,
             selects: selects,
             effectChainOrder: effectChainOrder
@@ -1124,51 +1276,13 @@ function importJSON(event) {
             if (!Array.isArray(songbookData)) throw new Error("Format JSON invalide");
 
             const container = document.getElementById("livre-container");
-            
-            // On retire toutes les pages existantes sauf la page vide Mooer de base et la page Boss initiale si on veut repartir propre, ou on reconstruit tout en remettant la page vide
             container.innerHTML = "";
 
-            // Ré-injecter la page vide permanente Mooer en premier
-            const emptyMooerHtml = `
-            <div class="page" data-type="mooer-empty">
-                <div class="toolbar-interne">
-                    <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
-                    <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
-                </div>
-                <div class="header-patch mooer-header">
-                    <h2>Mooer P1 - Page Vide</h2>
-                    <div class="header-inputs">
-                        <input type="text" class="input-patch-name" placeholder="Vide" readonly>
-                        <input type="text" class="input-patch-slot" placeholder="---" readonly>
-                    </div>
-                </div>
-                <div class="page-contenu-interne" style="display: flex; align-items: center; justify-content: center; text-align: center; color: #7f8c8d;">
-                    <div>
-                        <h3 style="color: #27ae60; margin-bottom: 8px;">Aucune page Mooer supplémentaire</h3>
-                        <p style="font-size: 11px; margin: 0;">Cliquez sur <b>"+ Mooer"</b> ci-dessous pour ajouter un nouveau patch.</p>
-                    </div>
-                </div>
-                <div class="bande-navigation">
-                    <div class="nav-ligne-haut">
-                        <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
-                        <button class="btn-filter-boss" onclick="filterAndNavigate('boss')">BOSS</button>
-                        <button class="btn-filter-mooer" onclick="filterAndNavigate('mooer')">MOOER</button>
-                        <span class="page-indicator" style="font-size: 11px; font-weight: bold; color: #333; min-width: 36px; text-align: center;">Page</span>
-                        <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
-                    </div>
-                    <div class="nav-ligne-bas">
-                        <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
-                        <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
-                        <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
-                    </div>
-                </div>
-            </div>`;
-            const divEmpty = document.createElement('div');
-            divEmpty.innerHTML = emptyMooerHtml.trim();
-            container.appendChild(divEmpty.firstChild);
-
-            songbookData.forEach(pageData => {
+            songbookData.forEach((pageData, index) => {
                 let newPage;
+                // Si c'est la toute première page Mooer du fichier importé, on la traite comme la page de départ permanente (mooer-empty) si on veut garder la structure
+                const isFirstMooer = (pageData.type === 'mooer' && index === 1); 
+
                 if (pageData.type === 'boss') {
                     const bossPageHtml = `
                     <div class="page" data-type="boss">
@@ -1220,6 +1334,9 @@ function importJSON(event) {
                     const temp = document.createElement('div');
                     temp.innerHTML = document.getElementById("template-mooer").innerHTML;
                     newPage = temp.querySelector('.page');
+                    if (isFirstMooer) {
+                        newPage.setAttribute('data-type', 'mooer-empty');
+                    }
                 }
 
                 const textInputs = newPage.querySelectorAll('input[type="text"]');
@@ -1232,7 +1349,7 @@ function importJSON(event) {
                     if (pageData.selects[idx]) {
                         select.innerHTML = '';
                         pageData.selects[idx].options.forEach(optVal => {
-                            const opt = document.option = document.createElement('option');
+                            const opt = document.createElement('option');
                             opt.value = optVal;
                             opt.textContent = optVal;
                             select.appendChild(opt);
