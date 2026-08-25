@@ -23,8 +23,7 @@
             }
             pages.forEach((page, idx) => {
                 if (idx === currentIndex) {
-                    page.style.display = 'block';
-                    page.style.transform = 'rotateY(0deg)';
+                    page.style.display = 'flex';
                     page.style.opacity = '1';
                     page.style.zIndex = '2';
                 } else {
@@ -66,28 +65,6 @@
             }
         }, {passive: true});
 
-        let isMouseDown = false;
-        container.addEventListener('mousedown', function(e) {
-            if(e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON' || e.target.closest('.effect-chain-box')) return;
-            isMouseDown = true;
-            startX = e.clientX;
-        });
-
-        window.addEventListener('mouseup', function(e) {
-            if (!isMouseDown) return;
-            isMouseDown = false;
-            let diff = startX - e.clientX;
-            let pages = getPages();
-            if (Math.abs(diff) > 40) {
-                if (diff > 0 && currentIndex < pages.length - 1) {
-                    currentIndex++;
-                } else if (diff < 0 && currentIndex > 0) {
-                    currentIndex--;
-                }
-                updatePages();
-            }
-        });
-
         updatePages();
         return {
             next: () => { 
@@ -121,28 +98,34 @@
 
         #livre-container {
             width: 100%; max-width: 380px; height: 92vh; max-height: 700px;
-            position: relative;
             background: #1a1a1a;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.8);
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
+        /* Chaque page est un conteneur vertical Flexbox strict */
         .page {
-            position: absolute; inset: 0;
+            display: none;
+            flex-direction: column;
+            flex: 1;
             background-color: #f4f5f7;
             padding: 8px;
             border-radius: 12px;
-            display: none;
-            transition: transform 0.4s ease, opacity 0.4s ease;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            overflow: hidden;
         }
 
-        .page-contenu {
-            display: flex; flex-direction: column;
-            gap: 6px; min-height: 100%;
+        /* La zone de contenu interne défile si elle est trop longue */
+        .page-contenu-interne {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-bottom: 4px;
         }
 
         /* Barre d'outils intégrée en haut de chaque page */
@@ -153,6 +136,8 @@
             padding: 4px;
             border-radius: 6px;
             justify-content: center;
+            flex-shrink: 0;
+            margin-bottom: 4px;
         }
 
         .btn-toolbar {
@@ -256,7 +241,6 @@
 
         input.val-c { width: 30px; text-align: center; }
 
-        /* Conteneur Ordre des Effets (Mooer P1) */
         .effect-chain-box {
             border: 1.5px solid #27ae60;
             border-radius: 8px;
@@ -316,11 +300,17 @@
             opacity: 0.35;
         }
 
+        /* Barre de navigation fixe par structure Flex (ne flotte plus de manière aléatoire) */
         .bande-navigation {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-top: auto; padding-top: 6px; border-top: 1px solid #ddd;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding-top: 6px; 
+            border-top: 1px solid #ddd;
             gap: 2px;
             background: #f4f5f7;
+            flex-shrink: 0;
+            margin-top: auto;
         }
 
         .btn-nav {
@@ -343,7 +333,6 @@
             padding: 5px 6px; border-radius: 4px; font-size: 9px; font-weight: bold; cursor: pointer;
         }
 
-        /* Modale */
         .modal {
             display: none; position: fixed; z-index: 20;
             left: 0; top: 0; width: 100%; height: 100%;
@@ -379,12 +368,12 @@
     
     <!-- PAGE 1 : BOSS ME-80 -->
     <div class="page" data-type="boss">
-        <div class="page-contenu">
-            <div class="toolbar-interne">
-                <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
-                <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
-            </div>
+        <div class="toolbar-interne">
+            <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
+            <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
+        </div>
 
+        <div class="page-contenu-interne">
             <div class="header-patch">
                 <h2>Boss ME-80</h2>
                 <div class="header-inputs">
@@ -526,27 +515,27 @@
                     <span>Master Vol: <input type="text" class="val-c" value="21%"></span>
                 </div>
             </div>
+        </div>
 
-            <div class="bande-navigation">
-                <button class="btn-nav" onclick="book.prev()">◄</button>
-                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
-                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
-                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
-                <span class="page-indicator" style="font-size: 9px; color: #666;">1/1</span>
-                <button class="btn-nav" onclick="book.next()">►</button>
-            </div>
+        <div class="bande-navigation">
+            <button class="btn-nav" onclick="book.prev()">◄</button>
+            <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+            <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+            <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+            <span class="page-indicator" style="font-size: 9px; color: #666;">1/1</span>
+            <button class="btn-nav" onclick="book.next()">►</button>
         </div>
     </div>
 
     <!-- PAGE MODÈLE CACHÉE POUR MOOER PRIME P1 -->
     <template id="template-mooer">
         <div class="page" data-type="mooer">
-            <div class="page-contenu">
-                <div class="toolbar-interne">
-                    <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
-                    <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
-                </div>
+            <div class="toolbar-interne">
+                <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
+                <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
+            </div>
 
+            <div class="page-contenu-interne">
                 <div class="header-patch mooer-header">
                     <h2>Mooer P1</h2>
                     <div class="header-inputs">
@@ -702,15 +691,15 @@
                         <div class="effect-card" draggable="true">REVERBE</div>
                     </div>
                 </div>
+            </div>
 
-                <div class="bande-navigation">
-                    <button class="btn-nav" onclick="book.prev()">◄</button>
-                    <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
-                    <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
-                    <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
-                    <span class="page-indicator" style="font-size: 9px; color: #666;">Page</span>
-                    <button class="btn-nav" onclick="book.next()">►</button>
-                </div>
+            <div class="bande-navigation">
+                <button class="btn-nav" onclick="book.prev()">◄</button>
+                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+                <span class="page-indicator" style="font-size: 9px; color: #666;">Page</span>
+                <button class="btn-nav" onclick="book.next()">►</button>
             </div>
         </div>
     </template>
@@ -934,18 +923,18 @@ function importJSON(event) {
             if (!Array.isArray(songbookData)) throw new Error("Format JSON invalide");
 
             const container = document.getElementById("livre-container");
-            container.innerHTML = ""; // Vider l'ancien contenu
+            container.innerHTML = "";
 
             songbookData.forEach(pageData => {
                 let newPage;
                 if (pageData.type === 'boss') {
                     const bossPageHtml = `
                     <div class="page" data-type="boss">
-                        <div class="page-contenu">
-                            <div class="toolbar-interne">
-                                <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
-                                <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
-                            </div>
+                        <div class="toolbar-interne">
+                            <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
+                            <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
+                        </div>
+                        <div class="page-contenu-interne">
                             <div class="header-patch">
                                 <h2>Boss ME-80</h2>
                                 <div class="header-inputs">
@@ -966,14 +955,14 @@ function importJSON(event) {
                                 <div class="champ-ligne"><span>Reverb: <select style="width: 50px;"></select><input type="text" class="val-c"></span><span>Pedal FX: <select style="width: 50px;"></select></span></div>
                                 <div class="champ-ligne"><span>NS (Thresh): <input type="text" class="val-c"></span><span>Master Vol: <input type="text" class="val-c"></span></div>
                             </div>
-                            <div class="bande-navigation">
-                                <button class="btn-nav" onclick="book.prev()">◄</button>
-                                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
-                                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
-                                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
-                                <span class="page-indicator" style="font-size: 9px; color: #666;">Page</span>
-                                <button class="btn-nav" onclick="book.next()">►</button>
-                            </div>
+                        </div>
+                        <div class="bande-navigation">
+                            <button class="btn-nav" onclick="book.prev()">◄</button>
+                            <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                            <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                            <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+                            <span class="page-indicator" style="font-size: 9px; color: #666;">Page</span>
+                            <button class="btn-nav" onclick="book.next()">►</button>
                         </div>
                     </div>`;
                     const div = document.createElement('div');
