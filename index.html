@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>Songbook Effets</title>
+    
+    <script>
+    /*! PageFlip Engine Mini - Autonome */
+    window.SimpleFlip = function(containerId) {
+        let container = document.getElementById(containerId);
+        let currentIndex = 0;
+
+        function getPages() {
+            return container.querySelectorAll('.page');
+        }
+
+        function updatePages() {
+            let pages = getPages();
+            if (pages.length === 0) return;
+            if (currentIndex >= pages.length) {
+                currentIndex = Math.max(0, pages.length - 1);
+            }
+            pages.forEach((page, idx) => {
+                if (idx === currentIndex) {
+                    page.style.display = 'block';
+                    page.style.transform = 'rotateY(0deg)';
+                    page.style.opacity = '1';
+                    page.style.zIndex = '2';
+                } else {
+                    page.style.display = 'none';
+                    page.style.zIndex = '1';
+                }
+            });
+            updateIndicators();
+        }
+
+        function updateIndicators() {
+            let pages = getPages();
+            pages.forEach((page, idx) => {
+                let indicator = page.querySelector('.page-indicator');
+                if (indicator) {
+                    indicator.textContent = `${idx + 1}/${pages.length}`;
+                }
+            });
+        }
+
+        let startX = 0;
+        container.addEventListener('touchstart', function(e) {
+            if (e.target.closest('.effect-chain-box')) return;
+            startX = e.touches[0].clientX;
+        }, {passive: true});
+
+        container.addEventListener('touchend', function(e) {
+            if (e.target.closest('.effect-chain-box')) return;
+            let endX = e.changedTouches[0].clientX;
+            let diff = startX - endX;
+            let pages = getPages();
+            if (Math.abs(diff) > 40) {
+                if (diff > 0 && currentIndex < pages.length - 1) {
+                    currentIndex++;
+                } else if (diff < 0 && currentIndex > 0) {
+                    currentIndex--;
+                }
+                updatePages();
+            }
+        }, {passive: true});
+
+        let isMouseDown = false;
+        container.addEventListener('mousedown', function(e) {
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'BUTTON' || e.target.closest('.effect-chain-box')) return;
+            isMouseDown = true;
+            startX = e.clientX;
+        });
+
+        window.addEventListener('mouseup', function(e) {
+            if (!isMouseDown) return;
+            isMouseDown = false;
+            let diff = startX - e.clientX;
+            let pages = getPages();
+            if (Math.abs(diff) > 40) {
+                if (diff > 0 && currentIndex < pages.length - 1) {
+                    currentIndex++;
+                } else if (diff < 0 && currentIndex > 0) {
+                    currentIndex--;
+                }
+                updatePages();
+            }
+        });
+
+        updatePages();
+        return {
+            next: () => { 
+                let pages = getPages();
+                if(currentIndex < pages.length - 1) { currentIndex++; updatePages(); } 
+            },
+            prev: () => { 
+                if(currentIndex > 0) { currentIndex--; updatePages(); } 
+            },
+            goToLast: () => {
+                let pages = getPages();
+                currentIndex = pages.length - 1;
+                updatePages();
+            },
+            getCurrentIndex: () => currentIndex,
+            refresh: () => { updatePages(); }
+        };
+    };
+    </script>
+
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background-color: #121212;
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            height: 100vh; width: 100vw; overflow: hidden;
+            font-family: Arial, sans-serif;
+            touch-action: pan-x pan-y;
+        }
+
+        /* Barre d'outils sauvegarde/importation */
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            z-index: 10;
+        }
+
+        .btn-toolbar {
+            background: #2c3e50;
+            color: #ffffff;
+            border: 1px solid #455a64;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        }
+
+        .btn-toolbar:active {
+            background: #1a252f;
+        }
+
+        #livre-container {
+            width: 360px; height: 600px;
+            position: relative;
+            background: #1a1a1a;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+        }
+
+        .page {
+            position: absolute; inset: 0;
+            background-color: #f4f5f7;
+            padding: 10px 10px;
+            border-radius: 12px;
+            display: none;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            overflow-y: auto;
+        }
+
+        .page-contenu {
+            display: flex; flex-direction: column;
+            gap: 6px; height: 100%;
+        }
+
+        .header-patch {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid #e66400; padding-bottom: 4px; gap: 4px;
+        }
+
+        .header-patch.mooer-header {
+            border-bottom-color: #27ae60;
+        }
+
+        .header-patch h2 { 
+            margin: 0; color: #e66400; font-size: 14px; 
+            white-space: nowrap;
+        }
+        
+        .header-patch.mooer-header h2 {
+            color: #27ae60;
+        }
+
+        .header-inputs {
+            display: flex; gap: 4px; width: 70%; justify-content: flex-end;
+        }
+
+        .input-patch-name {
+            flex: 1; font-weight: bold; font-size: 11px;
+            border: 1px solid #ccc; border-radius: 4px; padding: 4px 6px;
+            min-width: 0;
+        }
+
+        .input-patch-slot {
+            width: 48px; font-weight: bold; font-size: 11px; text-align: center;
+            border: 1px solid #ccc; border-radius: 4px; padding: 4px 2px;
+            background-color: #fff; color: #d35400;
+        }
+
+        .grid-effets {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+        }
+
+        .bloc-effet {
+            border: 1px solid #dcdcdc; padding: 6px 7px;
+            border-radius: 8px; background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .titre-effet {
+            font-weight: bold; font-size: 10px; display: block;
+            border-bottom: 1px solid #eee; margin-bottom: 4px; padding-bottom: 2px;
+            text-transform: uppercase;
+        }
+
+        .champ-ligne {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 9.5px; margin-bottom: 4px; flex-wrap: wrap;
+        }
+
+        .select-container {
+            display: flex; width: 95px; gap: 2px;
+        }
+
+        select {
+            width: 100%; font-size: 9px; padding: 2px; border: 1px solid #ccc; border-radius: 3px;
+        }
+
+        .btn-add-option {
+            background: #27ae60; color: white; border: none;
+            border-radius: 3px; font-weight: bold; cursor: pointer;
+            padding: 0 4px; font-size: 8.5px;
+        }
+
+        input[type="text"] {
+            padding: 3px 4px; font-size: 9px; border: 1px solid #ccc; border-radius: 3px;
+        }
+
+        /* Anti-Zoom iOS */
+        @supports (-webkit-touch-callout: none) {
+            input[type="text"], select {
+                font-size: 16px;
+                transform: scale(0.56);
+                transform-origin: left center;
+                width: 178%;
+                margin-right: -78%;
+            }
+            .input-patch-name, .input-patch-slot, input.val-c {
+                transform: scale(0.56);
+                transform-origin: center center;
+            }
+        }
+
+        input.val-c { width: 30px; text-align: center; }
+
+        /* Conteneur Ordre des Effets (Mooer P1) */
+        .effect-chain-box {
+            border: 1.5px solid #27ae60;
+            border-radius: 8px;
+            background: #f0fdf4;
+            padding: 6px;
+            margin-top: 4px;
+        }
+
+        .effect-chain-title {
+            font-size: 9px;
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 4px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .effect-chain-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            border: 1.5px dashed #27ae60;
+            border-radius: 6px;
+            padding: 4px;
+            gap: 4px;
+            min-height: 48px;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .effect-card {
+            flex: 1;
+            height: 36px;
+            background: #27ae60;
+            color: white;
+            font-size: 8.5px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 5px;
+            cursor: grab;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+            touch-action: none;
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+
+        .effect-card:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+            background: #1e8449;
+        }
+
+        .effect-card.dragging {
+            opacity: 0.35;
+        }
+
+        .bande-navigation {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: auto; padding-top: 4px; border-top: 1px solid #ddd;
+            gap: 2px;
+        }
+
+        .btn-nav {
+            background: #007aff; color: white; border: none;
+            padding: 5px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; cursor: pointer;
+        }
+
+        .btn-add-boss {
+            background: #e66400; color: white; border: none;
+            padding: 5px 7px; border-radius: 4px; font-size: 9.5px; font-weight: bold; cursor: pointer;
+        }
+
+        .btn-add-mooer {
+            background: #27ae60; color: white; border: none;
+            padding: 5px 7px; border-radius: 4px; font-size: 9.5px; font-weight: bold; cursor: pointer;
+        }
+
+        .btn-del-page {
+            background: #c0392b; color: white; border: none;
+            padding: 5px 7px; border-radius: 4px; font-size: 9.5px; font-weight: bold; cursor: pointer;
+        }
+
+        /* Modale */
+        .modal {
+            display: none; position: fixed; z-index: 20;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center; align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fff; padding: 15px; border-radius: 8px;
+            width: 260px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex; flex-direction: column; gap: 10px;
+        }
+
+        .modal-content h3 { margin: 0; font-size: 12px; color: #333; }
+
+        .modal-buttons {
+            display: flex; justify-content: flex-end; gap: 6px;
+        }
+
+        .btn-modal {
+            padding: 4px 10px; font-size: 10px; border: none; border-radius: 4px; cursor: pointer;
+        }
+
+        .btn-confirm { background: #27ae60; color: white; }
+        .btn-cancel { background: #e74c3c; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="toolbar">
+    <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer (JSON)</button>
+    <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer (JSON)</button>
+    <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="importJSON(event)">
+</div>
+
+<div id="livre-container">
+    
+    <!-- PAGE 1 : BOSS ME-80 -->
+    <div class="page" data-type="boss">
+        <div class="page-contenu">
+            <div class="header-patch">
+                <h2>Boss ME-80</h2>
+                <div class="header-inputs">
+                    <input type="text" class="input-patch-name" value="Distortion 1.0" placeholder="Nom...">
+                    <input type="text" class="input-patch-slot" value="U1-1" placeholder="Empl.">
+                </div>
+            </div>
+
+            <div class="grid-effets">
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #d35400;">COMP / FX1</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="COMP">COMP</option>
+                                <option value="LIMITER">LIMITER</option>
+                                <option value="T-WAH">T-WAH</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne"><span>Sustain: <input type="text" class="val-c" value="24"></span> <span>Attack: <input type="text" class="val-c" value="62"></span></div>
+                    <div class="champ-ligne"><span>Level: <input type="text" class="val-c" value="50"></span></div>
+                </div>
+
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #c0392b;">OD / DS</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="TURBO OD">TURBO OD</option>
+                                <option value="BOOSTER">BOOSTER</option>
+                                <option value="BLUES">BLUES</option>
+                                <option value="DIST">DIST</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne"><span>Drive: <input type="text" class="val-c" value="64"></span> <span>Tone: <input type="text" class="val-c" value="50"></span></div>
+                    <div class="champ-ligne"><span>Level: <input type="text" class="val-c" value="50"></span></div>
+                </div>
+
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #2980b9;">PREAMP</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="Extreme Lead">Extreme Lead</option>
+                                <option value="CLEAN">CLEAN</option>
+                                <option value="TWIN">TWIN</option>
+                                <option value="CRUNCH">CRUNCH</option>
+                                <option value="DRIVE">DRIVE</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne"><span>Gain: <input type="text" class="val-c" value="73"></span> <span>Bass: <input type="text" class="val-c" value="66"></span></div>
+                    <div class="champ-ligne"><span>Middle: <input type="text" class="val-c" value="15"></span> <span>Treble: <input type="text" class="val-c" value="29"></span></div>
+                    <div class="champ-ligne"><span>Level: <input type="text" class="val-c" value="50"></span></div>
+                </div>
+
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #16a085;">EQ / FX2</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="EQ">EQ</option>
+                                <option value="PHASER">PHASER</option>
+                                <option value="TREMOLO">TREMOLO</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne"><span>B-Cut: <input type="text" class="val-c" value="0"></span> <span>M-Eq: <input type="text" class="val-c" value="+2"></span></div>
+                    <div class="champ-ligne"><span>T-Cut: <input type="text" class="val-c" value="0"></span> <span>Level: <input type="text" class="val-c" value="50"></span></div>
+                </div>
+
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #27ae60;">MODULATION</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="CHORUS">CHORUS</option>
+                                <option value="FLANGER">FLANGER</option>
+                                <option value="ROTARY">ROTARY</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne"><span>Rate: <input type="text" class="val-c" value="63"></span> <span>Depth: <input type="text" class="val-c" value="75"></span></div>
+                    <div class="champ-ligne"><span>Level: <input type="text" class="val-c" value="50"></span></div>
+                </div>
+
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #8e44ad;">DELAY</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="1-99ms">1-99ms</option>
+                                <option value="100-600ms">100-600ms</option>
+                                <option value="ANALOG">ANALOG</option>
+                                <option value="TAPE">TAPE</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne"><span>Time: <input type="text" class="val-c" value="92"></span> <span>Feedback: <input type="text" class="val-c" value="33"></span></div>
+                    <div class="champ-ligne"><span>E.Level: <input type="text" class="val-c" value="45"></span></div>
+                </div>
+            </div>
+
+            <div class="bloc-effet" style="margin-top: 2px;">
+                <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
+                <div class="champ-ligne">
+                    <span>Reverb: 
+                        <select style="width: 55px;">
+                            <option value="HALL">HALL</option>
+                            <option value="ROOM">ROOM</option>
+                            <option value="SPRING">SPRING</option>
+                        </select>
+                        <input type="text" class="val-c" value="25">
+                    </span>
+                    <span>Pedal FX: 
+                        <select style="width: 55px;">
+                            <option value="WAH">WAH</option>
+                            <option value="+1OCT">+1OCT</option>
+                            <option value="-1OCT">-1OCT</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="champ-ligne">
+                    <span>NS (Thresh): <input type="text" class="val-c" value="45"></span>
+                    <span>Master Vol: <input type="text" class="val-c" value="21%"></span>
+                </div>
+            </div>
+
+            <div class="bande-navigation">
+                <button class="btn-nav" onclick="book.prev()">◄</button>
+                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+                <span class="page-indicator" style="font-size: 9.5px; color: #666;">1/1</span>
+                <button class="btn-nav" onclick="book.next()">►</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE MODÈLE CACHÉE POUR MOOER PRIME P1 -->
+    <template id="template-mooer">
+        <div class="page" data-type="mooer">
+            <div class="page-contenu">
+                <div class="header-patch mooer-header">
+                    <h2>Mooer P1</h2>
+                    <div class="header-inputs">
+                        <input type="text" class="input-patch-name" placeholder="Nom du patch...">
+                        <input type="text" class="input-patch-slot" placeholder="A-1">
+                    </div>
+                </div>
+
+                <div class="grid-effets">
+                    <!-- DYNA -->
+                    <div class="bloc-effet">
+                        <span class="titre-effet" style="color: #16a085;">DYNA</span>
+                        <div class="champ-ligne">
+                            <span>Type:</span>
+                            <div class="select-container">
+                                <select class="select-target">
+                                    <option value="COMP">COMP</option>
+                                    <option value="TOUCH WAH">TOUCH WAH</option>
+                                </select>
+                                <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                            </div>
+                        </div>
+                        <div class="champ-ligne"><span>Thresh: <input type="text" class="val-c"></span> <span>Attack: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Peak: <input type="text" class="val-c"></span> <span>Rate: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Ratio: <input type="text" class="val-c"></span> <span>Range: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Sens: <input type="text" class="val-c"></span> <span>Level: <input type="text" class="val-c"></span></div>
+                    </div>
+
+                    <!-- OD -->
+                    <div class="bloc-effet">
+                        <span class="titre-effet" style="color: #c0392b;">OD</span>
+                        <div class="champ-ligne">
+                            <span>Type:</span>
+                            <div class="select-container">
+                                <select class="select-target">
+                                    <option value="TUBE DRIVE">TUBE DRIVE</option>
+                                    <option value="Fuzz">Fuzz</option>
+                                    <option value="DIST">DIST</option>
+                                </select>
+                                <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                            </div>
+                        </div>
+                        <div class="champ-ligne"><span>Gain: <input type="text" class="val-c"></span> <span>Tone: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Vol: <input type="text" class="val-c"></span></div>
+                    </div>
+
+                    <!-- AMP -->
+                    <div class="bloc-effet">
+                        <span class="titre-effet" style="color: #d35400;">AMP</span>
+                        <div class="champ-ligne">
+                            <span>Type:</span>
+                            <div class="select-container">
+                                <select class="select-target">
+                                    <option value="65 US TWIN">65 US TWIN</option>
+                                    <option value="UK 800">UK 800</option>
+                                    <option value="MALI 900">MALI 900</option>
+                                </select>
+                                <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                            </div>
+                        </div>
+                        <div class="champ-ligne"><span>Gain: <input type="text" class="val-c"></span> <span>Bass: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Mid: <input type="text" class="val-c"></span> <span>Treble: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Presence: <input type="text" class="val-c"></span> <span>Master: <input type="text" class="val-c"></span></div>
+                    </div>
+
+                    <!-- CAB -->
+                    <div class="bloc-effet">
+                        <span class="titre-effet" style="color: #7f8c8d;">CAB</span>
+                        <div class="champ-ligne">
+                            <span>Type:</span>
+                            <div class="select-container">
+                                <select class="select-target">
+                                    <option value="US 2x12">US 2x12</option>
+                                    <option value="UK 4x12">UK 4x12</option>
+                                </select>
+                                <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MOD -->
+                    <div class="bloc-effet">
+                        <span class="titre-effet" style="color: #2980b9;">MOD</span>
+                        <div class="champ-ligne">
+                            <span>Type:</span>
+                            <div class="select-container">
+                                <select class="select-target">
+                                    <option value="CHORUS">CHORUS</option>
+                                    <option value="FLANGER">FLANGER</option>
+                                    <option value="PHASER">PHASER</option>
+                                </select>
+                                <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                            </div>
+                        </div>
+                        <div class="champ-ligne"><span>Bit: <input type="text" class="val-c"></span> <span>Depth: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Feedback: <input type="text" class="val-c"></span> <span>Mix: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Rate: <input type="text" class="val-c"></span> <span>Rise: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Sample: <input type="text" class="val-c"></span> <span>Tone: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Q: <input type="text" class="val-c"></span> <span>Level: <input type="text" class="val-c"></span></div>
+                    </div>
+
+                    <!-- DELAY -->
+                    <div class="bloc-effet">
+                        <span class="titre-effet" style="color: #8e44ad;">DELAY</span>
+                        <div class="champ-ligne">
+                            <span>Type:</span>
+                            <div class="select-container">
+                                <select class="select-target">
+                                    <option value="DIGITAL">DIGITAL</option>
+                                    <option value="ANALOG">ANALOG</option>
+                                    <option value="TAPE">TAPE</option>
+                                </select>
+                                <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                            </div>
+                        </div>
+                        <div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span> <span>Feedback: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Time: <input type="text" class="val-c"></span></div>
+                    </div>
+                </div>
+
+                <!-- REVERBE -->
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #27ae60;">REVERBE</span>
+                    <div class="champ-ligne">
+                        <span>Type:</span>
+                        <div class="select-container">
+                            <select class="select-target">
+                                <option value="ROOM">ROOM</option>
+                                <option value="HALL">HALL</option>
+                                <option value="CHURCH">CHURCH</option>
+                            </select>
+                            <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
+                        </div>
+                    </div>
+                    <div class="champ-ligne">
+                        <span>Pre Delay: <input type="text" class="val-c"></span>
+                        <span>Level: <input type="text" class="val-c"></span>
+                        <span>Decay: <input type="text" class="val-c"></span>
+                        <span>Tone: <input type="text" class="val-c"></span>
+                    </div>
+                </div>
+
+                <!-- CHAINE D'EFFETS DÉPLAÇABLE -->
+                <div class="effect-chain-box">
+                    <span class="effect-chain-title">Ordre de la chaîne d'effets</span>
+                    <div class="effect-chain-container">
+                        <div class="effect-card" draggable="true">DYNA</div>
+                        <div class="effect-card" draggable="true">OD</div>
+                        <div class="effect-card" draggable="true">AMP</div>
+                        <div class="effect-card" draggable="true">CAB</div>
+                        <div class="effect-card" draggable="true">MOD</div>
+                        <div class="effect-card" draggable="true">DELAY</div>
+                        <div class="effect-card" draggable="true">REVERBE</div>
+                    </div>
+                </div>
+
+                <div class="bande-navigation">
+                    <button class="btn-nav" onclick="book.prev()">◄</button>
+                    <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                    <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                    <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+                    <span class="page-indicator" style="font-size: 9.5px; color: #666;">Page</span>
+                    <button class="btn-nav" onclick="book.next()">►</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+</div>
+
+<!-- Fenêtre Popup pour ajouter une option -->
+<div id="optionModal" class="modal">
+    <div class="modal-content">
+        <h3>Ajouter une option de Type</h3>
+        <input type="text" id="newOptionText" placeholder="Nom du nouvel effet...">
+        <div class="modal-buttons">
+            <button class="btn-modal btn-cancel" onclick="closeOptionModal()">Annuler</button>
+            <button class="btn-modal btn-confirm" onclick="saveNewOption()">Ajouter</button>
+        </div>
+    </div>
+</div>
+
+<script>
+var book;
+var activeSelectElement = null;
+
+window.addEventListener("DOMContentLoaded", function() {
+    book = SimpleFlip("livre-container");
+
+    const modalElem = document.getElementById("optionModal");
+    modalElem.addEventListener("touchstart", e => e.stopPropagation(), {passive: true});
+    modalElem.addEventListener("mousedown", e => e.stopPropagation());
+
+    initDragAndDrop(document);
+});
+
+function initDragAndDrop(parentElement) {
+    const containers = parentElement.querySelectorAll('.effect-chain-container');
+    
+    containers.forEach(container => {
+        let draggedItem = null;
+
+        container.querySelectorAll('.effect-card').forEach(card => {
+            card.addEventListener('dragstart', function(e) {
+                draggedItem = this;
+                setTimeout(() => this.classList.add('dragging'), 0);
+            });
+
+            card.addEventListener('dragend', function() {
+                this.classList.remove('dragging');
+                draggedItem = null;
+            });
+
+            card.addEventListener('touchstart', function(e) {
+                draggedItem = this;
+                this.classList.add('dragging');
+            }, {passive: true});
+
+            card.addEventListener('touchmove', function(e) {
+                if (!draggedItem) return;
+                let touch = e.touches[0];
+                let target = document.elementFromPoint(touch.clientX, touch.clientY);
+                if (target && target.classList.contains('effect-card') && target !== draggedItem) {
+                    let children = Array.from(container.children);
+                    let draggedIdx = children.indexOf(draggedItem);
+                    let targetIdx = children.indexOf(target);
+                    if (draggedIdx < targetIdx) {
+                        container.insertBefore(draggedItem, target.nextSibling);
+                    } else {
+                        container.insertBefore(draggedItem, target);
+                    }
+                }
+            }, {passive: true});
+
+            card.addEventListener('touchend', function() {
+                if (draggedItem) {
+                    draggedItem.classList.remove('dragging');
+                    draggedItem = null;
+                }
+            });
+        });
+
+        container.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(container, e.clientX);
+            if (draggedItem) {
+                if (afterElement == null) {
+                    container.appendChild(draggedItem);
+                } else {
+                    container.insertBefore(draggedItem, afterElement);
+                }
+            }
+        });
+    });
+}
+
+function getDragAfterElement(container, x) {
+    const draggableElements = [...container.querySelectorAll('.effect-card:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = x - box.left - box.width / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+function openOptionModal(btnBtn) {
+    activeSelectElement = btnBtn.previousElementSibling;
+    document.getElementById("newOptionText").value = "";
+    document.getElementById("optionModal").style.display = "flex";
+}
+
+function closeOptionModal() {
+    document.getElementById("optionModal").style.display = "none";
+}
+
+function saveNewOption() {
+    const textVal = document.getElementById("newOptionText").value.trim();
+    if (textVal && activeSelectElement) {
+        const opt = document.createElement("option");
+        opt.value = textVal;
+        opt.textContent = textVal;
+        opt.selected = true;
+        activeSelectElement.appendChild(opt);
+    }
+    closeOptionModal();
+}
+
+function addNewBossPage() {
+    const container = document.getElementById("livre-container");
+    const bossPage = container.querySelector(".page[data-type='boss']");
+    
+    let newPage;
+    if (bossPage) {
+        newPage = bossPage.cloneNode(true);
+        const textInputs = newPage.querySelectorAll("input[type='text']");
+        textInputs.forEach(input => input.value = "");
+        const selects = newPage.querySelectorAll("select");
+        selects.forEach(select => select.selectedIndex = 0);
+    }
+    
+    container.appendChild(newPage);
+    book.refresh();
+    book.goToLast();
+}
+
+function addNewMooerPage() {
+    const container = document.getElementById("livre-container");
+    const template = document.getElementById("template-mooer");
+    const clone = template.content.cloneNode(true);
+    
+    container.appendChild(clone);
+    initDragAndDrop(container);
+    book.refresh();
+    book.goToLast();
+}
+
+function deleteCurrentPage() {
+    const container = document.getElementById("livre-container");
+    const pages = container.querySelectorAll(".page");
+    
+    if (pages.length <= 1) {
+        alert("Impossible de supprimer la seule page restante.");
+        return;
+    }
+    
+    const currentIndex = book.getCurrentIndex();
+    pages[currentIndex].remove();
+    
+    book.refresh();
+}
+
+/* GESTION DE L'EXPORT ET DE L'IMPORTATION JSON */
+function exportJSON() {
+    const pages = document.querySelectorAll('#livre-container .page');
+    const songbookData = [];
+
+    pages.forEach((page, index) => {
+        const pageType = page.getAttribute('data-type');
+        const inputs = Array.from(page.querySelectorAll('input[type="text"]')).map(input => input.value);
+        
+        const selects = Array.from(page.querySelectorAll('select')).map(select => {
+            const options = Array.from(select.options).map(opt => opt.value);
+            return {
+                options: options,
+                selectedIndex: select.selectedIndex
+            };
+        });
+
+        let effectChainOrder = [];
+        const chainBox = page.querySelector('.effect-chain-container');
+        if (chainBox) {
+            effectChainOrder = Array.from(chainBox.querySelectorAll('.effect-card')).map(card => card.textContent.trim());
+        }
+
+        songbookData.push({
+            type: pageType,
+            inputs: inputs,
+            selects: selects,
+            effectChainOrder: effectChainOrder
+        });
+    });
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(songbookData, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "SongbookEffets_Backup.json");
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+}
+
+function importJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const songbookData = JSON.parse(e.target.result);
+            if (!Array.isArray(songbookData)) throw new Error("Format JSON invalide");
+
+            const container = document.getElementById("livre-container");
+            container.innerHTML = ""; // Vider l'ancien contenu
+
+            songbookData.forEach(pageData => {
+                let newPage;
+                if (pageData.type === 'boss') {
+                    // Créer une page Boss
+                    const bossPageHtml = `
+                    <div class="page" data-type="boss">
+                        <div class="page-contenu">
+                            <div class="header-patch">
+                                <h2>Boss ME-80</h2>
+                                <div class="header-inputs">
+                                    <input type="text" class="input-patch-name" placeholder="Nom...">
+                                    <input type="text" class="input-patch-slot" placeholder="Empl.">
+                                </div>
+                            </div>
+                            <div class="grid-effets">
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">COMP / FX1</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Sustain: <input type="text" class="val-c"></span> <span>Attack: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD / DS</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Drive: <input type="text" class="val-c"></span> <span>Tone: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">PREAMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain: <input type="text" class="val-c"></span> <span>Bass: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Middle: <input type="text" class="val-c"></span> <span>Treble: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">EQ / FX2</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>B-Cut: <input type="text" class="val-c"></span> <span>M-Eq: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>T-Cut: <input type="text" class="val-c"></span> <span>Level: <input type="text" class="val-c"></span></div></div>
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #27ae60;">MODULATION</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate: <input type="text" class="val-c"></span> <span>Depth: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time: <input type="text" class="val-c"></span> <span>Feedback: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>E.Level: <input type="text" class="val-c"></span></div></div>
+                            </div>
+                            <div class="bloc-effet" style="margin-top: 2px;">
+                                <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
+                                <div class="champ-ligne"><span>Reverb: <select style="width: 55px;"></select><input type="text" class="val-c"></span><span>Pedal FX: <select style="width: 55px;"></select></span></div>
+                                <div class="champ-ligne"><span>NS (Thresh): <input type="text" class="val-c"></span><span>Master Vol: <input type="text" class="val-c"></span></div>
+                            </div>
+                            <div class="bande-navigation">
+                                <button class="btn-nav" onclick="book.prev()">◄</button>
+                                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+                                <span class="page-indicator" style="font-size: 9.5px; color: #666;">Page</span>
+                                <button class="btn-nav" onclick="book.next()">►</button>
+                            </div>
+                        </div>
+                    </div>`;
+                    const div = document.createElement('div');
+                    div.innerHTML = bossPageHtml.trim();
+                    newPage = div.firstChild;
+                } else {
+                    // Page Mooer
+                    const temp = document.createElement('div');
+                    temp.innerHTML = document.getElementById("template-mooer").innerHTML;
+                    newPage = temp.querySelector('.page');
+                }
+
+                // Restaurer les données des inputs
+                const textInputs = newPage.querySelectorAll('input[type="text"]');
+                textInputs.forEach((input, idx) => {
+                    if (pageData.inputs[idx] !== undefined) input.value = pageData.inputs[idx];
+                });
+
+                // Restaurer les selects et leurs options
+                const selects = newPage.querySelectorAll('select');
+                selects.forEach((select, idx) => {
+                    if (pageData.selects[idx]) {
+                        select.innerHTML = '';
+                        pageData.selects[idx].options.forEach(optVal => {
+                            const opt = document.createElement('option');
+                            opt.value = optVal;
+                            opt.textContent = optVal;
+                            select.appendChild(opt);
+                        });
+                        select.selectedIndex = pageData.selects[idx].selectedIndex;
+                    }
+                });
+
+                // Restaurer l'ordre des cartes d'effets si applicable
+                if (pageData.effectChainOrder && pageData.effectChainOrder.length > 0) {
+                    const chainContainer = newPage.querySelector('.effect-chain-container');
+                    if (chainContainer) {
+                        chainContainer.innerHTML = '';
+                        pageData.effectChainOrder.forEach(name => {
+                            const card = document.createElement('div');
+                            card.className = 'effect-card';
+                            card.setAttribute('draggable', 'true');
+                            card.textContent = name;
+                            chainContainer.appendChild(card);
+                        });
+                    }
+                }
+
+                container.appendChild(newPage);
+            });
+
+            initDragAndDrop(container);
+            book.refresh();
+            alert("Sauvegarde importée avec succès !");
+        } catch (err) {
+            alert("Erreur lors de l'importation du fichier JSON : " + err.message);
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = ''; // Réinitialiser le champ d'input
+}
+</script>
+
+</body>
+</html>
