@@ -108,7 +108,6 @@
             flex: 1;
         }
 
-        /* Structure fixe haut/bas et défilement au milieu */
         .page {
             display: none;
             flex-direction: column;
@@ -169,7 +168,6 @@
             background-color: #fff; color: #d35400;
         }
 
-        /* Zone centrale défilante */
         .page-contenu-interne {
             flex: 1;
             overflow-y: auto;
@@ -189,9 +187,9 @@
             border: 1px solid #dcdcdc; padding: 6px 7px;
             border-radius: 8px; background: #ffffff;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-sizing: border-box;
         }
 
-        /* Bloc du bas agrandi pour éviter de cacher les textes */
         .bloc-effet-bottom {
             border: 1.5px solid #dcdcdc; 
             padding: 8px 10px;
@@ -202,6 +200,7 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
+            box-sizing: border-box;
         }
 
         .titre-effet {
@@ -210,14 +209,41 @@
             text-transform: uppercase;
         }
 
-        .champ-ligne {
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 10px; margin-bottom: 5px; flex-wrap: wrap; gap: 4px;
+        /* Empilement vertical strict sur une seule colonne à l'intérieur des blocs */
+        .bloc-effet .champ-ligne {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 10px;
+            margin-bottom: 4px;
         }
 
-        /* Espacement corrigé entre le select et le bouton + */
+        .bloc-effet .champ-ligne > span {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Pour la dernière section du bas (Reverb / NS / Pedal FX / Master) */
+        .bloc-effet-bottom .champ-ligne {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            align-items: center;
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        .bloc-effet-bottom .champ-ligne > span {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
         .select-container {
-            display: flex; width: 110px; gap: 8px; align-items: center; 
+            display: flex; width: 100%; gap: 4px; align-items: center; 
         }
 
         select {
@@ -235,7 +261,7 @@
         }
 
         input.val-c { 
-            width: 42px; 
+            width: 38px; 
             text-align: center; 
             font-size: 11px; 
             font-weight: bold; 
@@ -259,7 +285,7 @@
             input.val-c {
                 transform: scale(0.75);
                 transform-origin: center center;
-                width: 55px;
+                width: 50px;
             }
         }
 
@@ -269,6 +295,7 @@
             background: #f0fdf4;
             padding: 6px;
             margin-top: 4px;
+            box-sizing: border-box;
         }
 
         .effect-chain-title {
@@ -322,7 +349,6 @@
             opacity: 0.35;
         }
 
-        /* Barre de navigation fixe en bas */
         .bande-navigation {
             display: flex; 
             justify-content: space-between; 
@@ -430,7 +456,8 @@
                             <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                         </div>
                     </div>
-                    <div class="champ-ligne"><span>Sustain: <input type="text" class="val-c" value="24"></span> <span>Attack: <input type="text" class="val-c" value="62"></span></div>
+                    <div class="champ-ligne"><span>Sustain: <input type="text" class="val-c" value="24"></span></div>
+                    <div class="champ-ligne"><span>Attack: <input type="text" class="val-c" value="62"></span></div>
                     <div class="champ-ligne"><span>Level: <input type="text" class="val-c" value="50"></span></div>
                 </div>
 
@@ -448,7 +475,8 @@
                             <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                         </div>
                     </div>
-                    <div class="champ-ligne"><span>Drive: <input type="text" class="val-c" value="64"></span> <span>Tone: <input type="text" class="val-c" value="50"></span></div>
+                    <div class="champ-ligne"><span>Drive: <input type="text" class="val-c" value="64"></span></div>
+                    <div class="champ-ligne"><span>Tone: <input type="text" class="val-c" value="50"></span></div>
                     <div class="champ-ligne"><span>Level: <input type="text" class="val-c" value="50"></span></div>
                 </div>
 
@@ -467,8 +495,10 @@
                             <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                         </div>
                     </div>
-                    <div class="champ-ligne"><span>Gain: <input type="text" class="val-c" value="73"></span> <span>Bass: <input type="text" class="val-c" value="66"></span></div>
-                    <div class="champ-ligne"><span>Middle: <input type="text" class="val-c" value="15"></span> <span>Treble: <input type="text" class="val-c" value="29"></span></div>
+                    <div class="champ-ligne"><span>Gain: <input type="text" class="val-c" value="73"></span></div>
+                    <div class="champ-ligne"><span>Bass: <input type="text" class="val-c" value="66"></span></div>
+                    <div class="champ-ligne"><span>Middle: <input type="text" class="val-c" value="15"></span></div>
+                    <div class="champ-ligne"><span>Treble: <input type="text" class="val-c" value="29"></span></div>
                     <div class="champ-ligne"><span>Level: <input type="text" class="val-c" value="50"></span></div>
                 </div>
 
@@ -485,8 +515,10 @@
                             <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                         </div>
                     </div>
-                    <div class="champ-ligne"><span>B-Cut: <input type="text" class="val-c" value="0"></span> <span>M-Eq: <input type="text" class="val-c" value="+2"></span></div>
-                    <div class="champ-ligne"><span>T-Cut: <input type="text" class="val-c" value="0"></span> <span>Level: <input type="text" class="val-c" value="50"></span></div>
+                    <div class="champ-ligne"><span>B-Cut: <input type="text" class="val-c" value="0"></span></div>
+                    <div class="champ-ligne"><span>M-Eq: <input type="text" class="val-c" value="+2"></span></div>
+                    <div class="champ-ligne"><span>T-Cut: <input type="text" class="val-c" value="0"></span></div>
+                    <div class="champ-ligne"><span>Level: <input type="text" class="val-c" value="50"></span></div>
                 </div>
 
                 <div class="bloc-effet">
@@ -502,7 +534,8 @@
                             <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                         </div>
                     </div>
-                    <div class="champ-ligne"><span>Rate: <input type="text" class="val-c" value="63"></span> <span>Depth: <input type="text" class="val-c" value="75"></span></div>
+                    <div class="champ-ligne"><span>Rate: <input type="text" class="val-c" value="63"></span></div>
+                    <div class="champ-ligne"><span>Depth: <input type="text" class="val-c" value="75"></span></div>
                     <div class="champ-ligne"><span>Level: <input type="text" class="val-c" value="50"></span></div>
                 </div>
 
@@ -520,7 +553,8 @@
                             <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                         </div>
                     </div>
-                    <div class="champ-ligne"><span>Time: <input type="text" class="val-c" value="92"></span> <span>Feedback: <input type="text" class="val-c" value="33"></span></div>
+                    <div class="champ-ligne"><span>Time: <input type="text" class="val-c" value="92"></span></div>
+                    <div class="champ-ligne"><span>Feedback: <input type="text" class="val-c" value="33"></span></div>
                     <div class="champ-ligne"><span>E.Level: <input type="text" class="val-c" value="45"></span></div>
                 </div>
             </div>
@@ -528,16 +562,17 @@
             <div class="bloc-effet-bottom">
                 <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
                 <div class="champ-ligne">
-                    <span>Reverb: 
-                        <select style="width: 55px;">
+                    <span style="gap: 4px; justify-content: flex-start;">
+                        Reverb: 
+                        <select style="width: 55px; margin-left: 6px;">
                             <option value="HALL">HALL</option>
                             <option value="ROOM">ROOM</option>
                             <option value="SPRING">SPRING</option>
                         </select>
-                        <input type="text" class="val-c" value="25">
+                        <input type="text" class="val-c" value="25" style="margin-left: 4px;">
                     </span>
-                    <span>Pedal FX: 
-                        <select style="width: 55px;">
+                    <span style="padding-left: 12px;">Pedal FX: 
+                        <select style="width: 75%; margin-left: 4px;">
                             <option value="WAH">WAH</option>
                             <option value="+1OCT">+1OCT</option>
                             <option value="-1OCT">-1OCT</option>
@@ -592,10 +627,14 @@
                                 <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                             </div>
                         </div>
-                        <div class="champ-ligne"><span>Thresh: <input type="text" class="val-c"></span> <span>Attack: <input type="text" class="val-c"></span></div>
-                        <div class="champ-ligne"><span>Peak: <input type="text" class="val-c"></span> <span>Rate: <input type="text" class="val-c"></span></div>
-                        <div class="champ-ligne"><span>Ratio: <input type="text" class="val-c"></span> <span>Range: <input type="text" class="val-c"></span></div>
-                        <div class="champ-ligne"><span>Sens: <input type="text" class="val-c"></span> <span>Level: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Thresh: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Attack: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Peak: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Rate: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Ratio: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Range: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Sens: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div>
                     </div>
 
                     <!-- OD -->
@@ -612,7 +651,8 @@
                                 <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                             </div>
                         </div>
-                        <div class="champ-ligne"><span>Gain: <input type="text" class="val-c"></span> <span>Tone: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Gain: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Tone: <input type="text" class="val-c"></span></div>
                         <div class="champ-ligne"><span>Vol: <input type="text" class="val-c"></span></div>
                     </div>
 
@@ -630,9 +670,12 @@
                                 <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                             </div>
                         </div>
-                        <div class="champ-ligne"><span>Gain: <input type="text" class="val-c"></span> <span>Bass: <input type="text" class="val-c"></span></div>
-                        <div class="champ-ligne"><span>Mid: <input type="text" class="val-c"></span> <span>Treble: <input type="text" class="val-c"></span></div>
-                        <div class="champ-ligne"><span>Presence: <input type="text" class="val-c"></span> <span>Master: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Gain: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Bass: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Mid: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Treble: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Presence: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Master: <input type="text" class="val-c"></span></div>
                     </div>
 
                     <!-- CAB -->
@@ -664,11 +707,16 @@
                                 <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                             </div>
                         </div>
-                        <div class="champ-ligne"><span>Bit: <input type="text" class="val-c"></span> <span>Depth: <input type="text" class="val-c"></span></div>
-                        <div class="champ-ligne"><span>Feedback: <input type="text" class="val-c"></span> <span>Mix: <input type="text" class="val-c"></span></div>
-                        <div class="champ-ligne"><span>Rate: <input type="text" class="val-c"></span> <span>Rise: <input type="text" class="val-c"></span></div>
-                        <div class="champ-ligne"><span>Sample: <input type="text" class="val-c"></span> <span>Tone: <input type="text" class="val-c"></span></div>
-                        <div class="champ-ligne"><span>Q: <input type="text" class="val-c"></span> <span>Level: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Bit: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Depth: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Feedback: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Mix: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Rate: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Rise: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Sample: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Tone: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Q: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div>
                     </div>
 
                     <!-- DELAY -->
@@ -685,7 +733,8 @@
                                 <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                             </div>
                         </div>
-                        <div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span> <span>Feedback: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div>
+                        <div class="champ-ligne"><span>Feedback: <input type="text" class="val-c"></span></div>
                         <div class="champ-ligne"><span>Time: <input type="text" class="val-c"></span></div>
                     </div>
                 </div>
@@ -704,12 +753,10 @@
                             <button class="btn-add-option" onclick="openOptionModal(this)">+</button>
                         </div>
                     </div>
-                    <div class="champ-ligne">
-                        <span>Pre Delay: <input type="text" class="val-c"></span>
-                        <span>Level: <input type="text" class="val-c"></span>
-                        <span>Decay: <input type="text" class="val-c"></span>
-                        <span>Tone: <input type="text" class="val-c"></span>
-                    </div>
+                    <div class="champ-ligne"><span>Pre Delay: <input type="text" class="val-c"></span></div>
+                    <div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div>
+                    <div class="champ-ligne"><span>Decay: <input type="text" class="val-c"></span></div>
+                    <div class="champ-ligne"><span>Tone: <input type="text" class="val-c"></span></div>
                 </div>
 
                 <!-- CHAINE D'EFFETS DÉPLAÇABLE -->
@@ -977,16 +1024,16 @@ function importJSON(event) {
                         </div>
                         <div class="page-contenu-interne">
                             <div class="grid-effets">
-                                <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">COMP / FX1</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Sustain: <input type="text" class="val-c"></span> <span>Attack: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
-                                <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD / DS</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Drive: <input type="text" class="val-c"></span> <span>Tone: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
-                                <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">PREAMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain: <input type="text" class="val-c"></span> <span>Bass: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Middle: <input type="text" class="val-c"></span> <span>Treble: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
-                                <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">EQ / FX2</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>B-Cut: <input type="text" class="val-c"></span> <span>M-Eq: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>T-Cut: <input type="text" class="val-c"></span> <span>Level: <input type="text" class="val-c"></span></div></div>
-                                <div class="bloc-effet"><span class="titre-effet" style="color: #27ae60;">MODULATION</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate: <input type="text" class="val-c"></span> <span>Depth: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
-                                <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time: <input type="text" class="val-c"></span> <span>Feedback: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>E.Level: <input type="text" class="val-c"></span></div></div>
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">COMP / FX1</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Sustain: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Attack: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD / DS</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Drive: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Tone: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">PREAMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Bass: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Middle: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Treble: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">EQ / FX2</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>B-Cut: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>M-Eq: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>T-Cut: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #27ae60;">MODULATION</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Depth: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Level: <input type="text" class="val-c"></span></div></div>
+                                <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>Feedback: <input type="text" class="val-c"></span></div><div class="champ-ligne"><span>E.Level: <input type="text" class="val-c"></span></div></div>
                             </div>
                             <div class="bloc-effet-bottom">
                                 <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
-                                <div class="champ-ligne"><span>Reverb: <select style="width: 55px;"></select><input type="text" class="val-c"></span><span>Pedal FX: <select style="width: 55px;"></select></span></div>
+                                <div class="champ-ligne"><span style="gap: 4px; justify-content: flex-start;">Reverb: <select style="width: 55px; margin-left: 6px;"></select><input type="text" class="val-c" style="margin-left: 4px;"></span><span style="padding-left: 12px;">Pedal FX: <select style="width: 75%; margin-left: 4px;"></select></span></div>
                                 <div class="champ-ligne"><span>NS (Thresh): <input type="text" class="val-c"></span><span>Master Vol: <input type="text" class="val-c"></span></div>
                             </div>
                         </div>
