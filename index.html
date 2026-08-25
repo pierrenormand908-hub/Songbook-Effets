@@ -178,8 +178,13 @@
             min-height: 0;
         }
 
+        /* Passage en 1 seule colonne stricte pour éviter tout débordement sur iPhone */
         .grid-effets {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .bloc-effet {
@@ -190,6 +195,7 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
+            width: 100%;
         }
 
         .bloc-effet-bottom {
@@ -202,6 +208,7 @@
             flex-direction: column;
             gap: 6px;
             box-sizing: border-box;
+            width: 100%;
         }
 
         .titre-effet {
@@ -210,7 +217,6 @@
             text-transform: uppercase;
         }
 
-        /* Empilement vertical strict sur une seule colonne à l'intérieur des blocs */
         .bloc-effet .champ-ligne {
             display: flex;
             flex-direction: column;
@@ -225,12 +231,10 @@
             width: 100%;
         }
 
-        /* Pour la dernière section du bas (Reverb / NS / Pedal FX / Master) */
         .bloc-effet-bottom .champ-ligne {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            align-items: center;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
             font-size: 11px;
         }
 
@@ -278,6 +282,7 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
+            width: 100%;
         }
 
         .effect-chain-title {
@@ -290,6 +295,7 @@
 
         .effect-chain-container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             background: #ffffff;
@@ -304,6 +310,7 @@
 
         .effect-card {
             flex: 1;
+            min-width: 50px;
             height: 34px;
             background: #27ae60;
             color: white;
@@ -535,17 +542,16 @@
             <div class="bloc-effet-bottom">
                 <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
                 <div class="champ-ligne">
-                    <span style="gap: 4px; justify-content: flex-start;">
-                        Reverb: 
-                        <select style="width: 60px; margin-left: 6px;">
+                    <span>Reverb: 
+                        <select style="width: 100%;">
                             <option value="HALL">HALL</option>
                             <option value="ROOM">ROOM</option>
                             <option value="SPRING">SPRING</option>
                         </select>
-                        <input type="text" class="val-c" value="25" style="margin-left: 4px;">
+                        <input type="text" class="val-c" value="25">
                     </span>
-                    <span style="padding-left: 8px;">Pedal FX: 
-                        <select style="width: 80%; margin-left: 4px;">
+                    <span>Pedal FX: 
+                        <select style="width: 100%;">
                             <option value="WAH">WAH</option>
                             <option value="+1OCT">+1OCT</option>
                             <option value="-1OCT">-1OCT</option>
@@ -1006,7 +1012,7 @@ function importJSON(event) {
                             </div>
                             <div class="bloc-effet-bottom">
                                 <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
-                                <div class="champ-ligne"><span style="gap: 4px; justify-content: flex-start;">Reverb: <select style="width: 60px; margin-left: 6px;"></select><input type="text" class="val-c" style="margin-left: 4px;"></span><span style="padding-left: 8px;">Pedal FX: <select style="width: 80%; margin-left: 4px;"></select></span></div>
+                                <div class="champ-ligne"><span>Reverb: <select style="width: 100%;"></select><input type="text" class="val-c"></span><span>Pedal FX: <select style="width: 100%;"></select></span></div>
                                 <div class="champ-ligne"><span>NS (Thresh): <input type="text" class="val-c"></span><span>Master Vol: <input type="text" class="val-c"></span></div>
                             </div>
                         </div>
