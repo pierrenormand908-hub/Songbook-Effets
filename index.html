@@ -6,40 +6,58 @@
     <title>Songbook Effets</title>
     <link rel="apple-touch-icon" href="Songbook_Effets.png">
     <script>
-    /*! PageFlip Engine Mini - Autonome */
+    /*! PageFlip Engine Filtré - Autonome */
     window.SimpleFlip = function(containerId) {
         let container = document.getElementById(containerId);
         let currentIndex = 0;
+        let currentFilter = 'all'; // 'all', 'boss', 'mooer'
 
-        function getPages() {
-            return container.querySelectorAll('.page');
+        function getAllPages() {
+            return Array.from(container.querySelectorAll('.page'));
+        }
+
+        function getFilteredPages() {
+            let pages = getAllPages();
+            if (currentFilter === 'boss') {
+                return pages.filter(p => p.getAttribute('data-type') === 'boss');
+            } else if (currentFilter === 'mooer') {
+                return pages.filter(p => p.getAttribute('data-type') === 'mooer');
+            }
+            return pages;
         }
 
         function updatePages() {
-            let pages = getPages();
-            if (pages.length === 0) return;
-            if (currentIndex >= pages.length) {
-                currentIndex = Math.max(0, pages.length - 1);
+            let allPages = getAllPages();
+            let activePages = getFilteredPages();
+
+            if (currentIndex >= activePages.length) {
+                currentIndex = Math.max(0, activePages.length - 1);
             }
-            pages.forEach((page, idx) => {
-                if (idx === currentIndex) {
-                    page.style.display = 'flex';
-                    page.style.opacity = '1';
-                    page.style.zIndex = '2';
-                } else {
-                    page.style.display = 'none';
-                    page.style.zIndex = '1';
-                }
+
+            allPages.forEach(page => {
+                page.style.display = 'none';
+                page.style.zIndex = '1';
             });
+
+            if (activePages.length > 0) {
+                let currentActivePage = activePages[currentIndex];
+                if (currentActivePage) {
+                    currentActivePage.style.display = 'flex';
+                    currentActivePage.style.opacity = '1';
+                    currentActivePage.style.zIndex = '2';
+                }
+            }
             updateIndicators();
         }
 
         function updateIndicators() {
-            let pages = getPages();
-            pages.forEach((page, idx) => {
-                let indicator = page.querySelector('.page-indicator');
-                if (indicator) {
-                    indicator.textContent = `${idx + 1}/${pages.length}`;
+            let activePages = getFilteredPages();
+            let indicators = container.querySelectorAll('.page-indicator');
+            indicators.forEach(indicator => {
+                if (activePages.length === 0) {
+                    indicator.textContent = `0/0`;
+                } else {
+                    indicator.textContent = `${currentIndex + 1}/${activePages.length}`;
                 }
             });
         }
@@ -54,9 +72,9 @@
             if (e.target.closest('.effect-chain-box') || e.target.closest('.page-contenu-interne')) return;
             let endX = e.changedTouches[0].clientX;
             let diff = startX - endX;
-            let pages = getPages();
+            let activePages = getFilteredPages();
             if (Math.abs(diff) > 40) {
-                if (diff > 0 && currentIndex < pages.length - 1) {
+                if (diff > 0 && currentIndex < activePages.length - 1) {
                     currentIndex++;
                 } else if (diff < 0 && currentIndex > 0) {
                     currentIndex--;
@@ -66,26 +84,33 @@
         }, {passive: true});
 
         updatePages();
+
         return {
             next: () => { 
-                let pages = getPages();
-                if(currentIndex < pages.length - 1) { currentIndex++; updatePages(); } 
+                let activePages = getFilteredPages();
+                if(currentIndex < activePages.length - 1) { currentIndex++; updatePages(); } 
             },
             prev: () => { 
                 if(currentIndex > 0) { currentIndex--; updatePages(); } 
             },
             goToLast: () => {
-                let pages = getPages();
-                currentIndex = pages.length - 1;
+                let activePages = getFilteredPages();
+                currentIndex = Math.max(0, activePages.length - 1);
                 updatePages();
             },
             goToIndex: (idx) => {
-                let pages = getPages();
-                if (idx >= 0 && idx < pages.length) {
+                let activePages = getFilteredPages();
+                if (idx >= 0 && idx < activePages.length) {
                     currentIndex = idx;
                     updatePages();
                 }
             },
+            setFilter: (filterType) => {
+                currentFilter = filterType;
+                currentIndex = 0;
+                updatePages();
+            },
+            getCurrentFilter: () => currentFilter,
             getCurrentIndex: () => currentIndex,
             refresh: () => { updatePages(); }
         };
@@ -349,16 +374,16 @@
             opacity: 0.4;
         }
 
-        /* Barre de navigation élargie verticalement et agencée proprement */
+        /* Barre de navigation élargie verticalement avec de gros boutons bien visibles */
         .bande-navigation {
             display: flex; 
             flex-direction: column;
             justify-content: center; 
             align-items: center;
-            padding: 10px 8px; 
-            border-top: 1px solid #ddd;
-            gap: 6px;
-            background: #e4e7eb;
+            padding: 12px 10px; 
+            border-top: 2px solid #cbd5e1;
+            gap: 8px;
+            background: #dfe4ea;
             flex-shrink: 0;
             margin-top: auto;
         }
@@ -368,7 +393,7 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            gap: 4px;
+            gap: 6px;
         }
 
         .btn-toolbar {
@@ -384,37 +409,43 @@
 
         .btn-nav {
             background: #007aff; color: white; border: none;
-            padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer;
+            padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer;
             flex: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
 
         .btn-filter-boss {
             background: #d35400; color: white; border: none;
-            padding: 6px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            padding: 10px 14px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;
             flex: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
 
         .btn-filter-mooer {
             background: #27ae60; color: white; border: none;
-            padding: 6px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            padding: 10px 14px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;
             flex: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
 
         .btn-add-boss {
             background: #e66400; color: white; border: none;
-            padding: 6px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            padding: 10px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;
             flex: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
 
         .btn-add-mooer {
             background: #27ae60; color: white; border: none;
-            padding: 6px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            padding: 10px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;
             flex: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
 
         .btn-del-page {
             background: #c0392b; color: white; border: none;
-            padding: 6px 8px; border-radius: 5px; font-size: 10px; font-weight: bold; cursor: pointer;
+            padding: 10px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
 
         .modal {
@@ -612,9 +643,9 @@
         <div class="bande-navigation">
             <div class="nav-ligne-haut">
                 <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
-                <button class="btn-filter-boss" onclick="navigateToFirstType('boss')">BOSS</button>
-                <button class="btn-filter-mooer" onclick="navigateToFirstType('mooer')">MOOER</button>
-                <span class="page-indicator" style="font-size: 10px; font-weight: bold; color: #333; min-width: 30px; text-align: center;">1/1</span>
+                <button class="btn-filter-boss" onclick="filterAndNavigate('boss')">BOSS</button>
+                <button class="btn-filter-mooer" onclick="filterAndNavigate('mooer')">MOOER</button>
+                <span class="page-indicator" style="font-size: 11px; font-weight: bold; color: #333; min-width: 36px; text-align: center;">1/1</span>
                 <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
             </div>
             <div class="nav-ligne-bas">
@@ -806,9 +837,9 @@
             <div class="bande-navigation">
                 <div class="nav-ligne-haut">
                     <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
-                    <button class="btn-filter-boss" onclick="navigateToFirstType('boss')">BOSS</button>
-                    <button class="btn-filter-mooer" onclick="navigateToFirstType('mooer')">MOOER</button>
-                    <span class="page-indicator" style="font-size: 10px; font-weight: bold; color: #333; min-width: 30px; text-align: center;">Page</span>
+                    <button class="btn-filter-boss" onclick="filterAndNavigate('boss')">BOSS</button>
+                    <button class="btn-filter-mooer" onclick="filterAndNavigate('mooer')">MOOER</button>
+                    <span class="page-indicator" style="font-size: 11px; font-weight: bold; color: #333; min-width: 36px; text-align: center;">Page</span>
                     <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
                 </div>
                 <div class="nav-ligne-bas">
@@ -848,23 +879,8 @@ window.addEventListener("DOMContentLoaded", function() {
     initDragAndDrop(document);
 });
 
-function navigateToFirstType(type) {
-    const container = document.getElementById("livre-container");
-    const pages = container.querySelectorAll(".page");
-    let targetIndex = -1;
-
-    for (let i = 0; i < pages.length; i++) {
-        if (pages[i].getAttribute("data-type") === type) {
-            targetIndex = i;
-            break;
-        }
-    }
-
-    if (targetIndex !== -1) {
-        book.goToIndex(targetIndex);
-    } else {
-        alert("Aucune page " + type.toUpperCase() + " trouvée.");
-    }
+function filterAndNavigate(type) {
+    book.setFilter(type);
 }
 
 function initDragAndDrop(parentElement) {
@@ -977,7 +993,7 @@ function addNewBossPage() {
     }
     
     container.appendChild(newPage);
-    book.refresh();
+    book.setFilter('boss');
     book.goToLast();
 }
 
@@ -988,21 +1004,24 @@ function addNewMooerPage() {
     
     container.appendChild(clone);
     initDragAndDrop(container);
-    book.refresh();
+    book.setFilter('mooer');
     book.goToLast();
 }
 
 function deleteCurrentPage() {
     const container = document.getElementById("livre-container");
-    const pages = container.querySelectorAll(".page");
+    const allPages = container.querySelectorAll(".page");
     
-    if (pages.length <= 1) {
+    if (allPages.length <= 1) {
         alert("Impossible de supprimer la seule page restante.");
         return;
     }
     
-    const currentIndex = book.getCurrentIndex();
-    pages[currentIndex].remove();
+    // Trouver la page actuellement visible
+    let visiblePage = Array.from(allPages).find(p => p.style.display === 'flex');
+    if (visiblePage) {
+        visiblePage.remove();
+    }
     
     book.refresh();
 }
@@ -1094,9 +1113,9 @@ function importJSON(event) {
                         <div class="bande-navigation">
                             <div class="nav-ligne-haut">
                                 <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
-                                <button class="btn-filter-boss" onclick="navigateToFirstType('boss')">BOSS</button>
-                                <button class="btn-filter-mooer" onclick="navigateToFirstType('mooer')">MOOER</button>
-                                <span class="page-indicator" style="font-size: 10px; font-weight: bold; color: #333; min-width: 30px; text-align: center;">Page</span>
+                                <button class="btn-filter-boss" onclick="filterAndNavigate('boss')">BOSS</button>
+                                <button class="btn-filter-mooer" onclick="filterAndNavigate('mooer')">MOOER</button>
+                                <span class="page-indicator" style="font-size: 11px; font-weight: bold; color: #333; min-width: 36px; text-align: center;">Page</span>
                                 <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
                             </div>
                             <div class="nav-ligne-bas">
@@ -1152,7 +1171,7 @@ function importJSON(event) {
             });
 
             initDragAndDrop(container);
-            book.refresh();
+            book.setFilter('all');
             alert("Sauvegarde importée avec succès !");
         } catch (err) {
             alert("Erreur lors de l'importation du fichier JSON : " + err.message);
