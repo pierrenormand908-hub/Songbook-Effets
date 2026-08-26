@@ -360,6 +360,12 @@ window.addEventListener("DOMContentLoaded", () => {
         el.addEventListener("mousedown", e => e.stopPropagation());
     });
     initDragAndDrop(document);
+
+    loadFromLocalStorage();
+
+    const container = document.getElementById("livre-container");
+    container.addEventListener("input", scheduleSave);
+    container.addEventListener("change", scheduleSave);
 });
 
 function initDragAndDrop(parentElement) {
@@ -367,7 +373,7 @@ function initDragAndDrop(parentElement) {
         let draggedItem = null;
         container.querySelectorAll('.effect-card').forEach(card => {
             card.addEventListener('dragstart', function() { draggedItem = this; setTimeout(() => this.classList.add('dragging'), 0); });
-            card.addEventListener('dragend', function() { this.classList.remove('dragging'); draggedItem = null; });
+            card.addEventListener('dragend', function() { this.classList.remove('dragging'); draggedItem = null; scheduleSave(); });
             card.addEventListener('touchstart', function() { draggedItem = this; this.classList.add('dragging'); }, {passive: true});
             card.addEventListener('touchmove', function(e) {
                 if (!draggedItem) return;
@@ -379,7 +385,7 @@ function initDragAndDrop(parentElement) {
                     else container.insertBefore(draggedItem, target);
                 }
             }, {passive: true});
-            card.addEventListener('touchend', () => { if (draggedItem) { draggedItem.classList.remove('dragging'); draggedItem = null; } });
+            card.addEventListener('touchend', () => { if (draggedItem) { draggedItem.classList.remove('dragging'); draggedItem = null; scheduleSave(); } });
         });
         container.addEventListener('dragover', e => {
             e.preventDefault();
@@ -406,12 +412,14 @@ function saveNewOption() {
         activeSelectElement.appendChild(opt);
     }
     closeOptionModal();
+    scheduleSave();
 }
 
 function addNewBossPage() {
     let container = document.getElementById("livre-container");
     container.appendChild(document.getElementById("template-boss").content.cloneNode(true));
     book.setFilter('boss'); book.goToLast();
+    scheduleSave();
 }
 
 function addNewMooerPage() {
@@ -419,6 +427,7 @@ function addNewMooerPage() {
     container.appendChild(document.getElementById("template-mooer").content.cloneNode(true));
     initDragAndDrop(container);
     book.setFilter('mooer'); book.goToLast();
+    scheduleSave();
 }
 
 function deleteCurrentPage() {
@@ -427,6 +436,7 @@ function deleteCurrentPage() {
     if (document.querySelectorAll("#livre-container .page").length <= 2) { alert("Impossible de supprimer."); return; }
     if (visiblePage) visiblePage.remove();
     book.refresh();
+    scheduleSave();
 }
 
 function exportJSON() { document.getElementById("exportModal").style.display = "flex"; }
@@ -482,6 +492,50 @@ function getJSONStringData() {
     return JSON.stringify(songbookData, null, 2);
 }
 
+function loadSongbookData(data) {
+    if (!Array.isArray(data)) throw new Error("Format JSON invalide");
+    const container = document.getElementById("livre-container");
+    container.innerHTML = "";
+
+    data.forEach((pData) => {
+        let templateId = (pData.type === 'boss') ? 'template-boss' : 'template-mooer';
+        let template = document.getElementById(templateId);
+        if (!template) throw new Error("Modèle introuvable : " + templateId);
+
+        let newPage = template.content.cloneNode(true).querySelector('.page');
+
+        newPage.querySelectorAll('input[type="text"]').forEach((input, i) => { if (pData.inputs[i] !== undefined) input.value = pData.inputs[i]; });
+        newPage.querySelectorAll('select').forEach((sel, i) => {
+            if (pData.selects[i]) {
+                sel.innerHTML = '';
+                pData.selects[i].options.forEach(optVal => {
+                    let opt = document.createElement('option');
+                    opt.value = optVal; opt.textContent = optVal;
+                    sel.appendChild(opt);
+                });
+                sel.selectedIndex = pData.selects[i].selectedIndex;
+            }
+        });
+
+        if (pData.effectChainOrder) {
+            let chainContainer = newPage.querySelector('.effect-chain-container');
+            if (chainContainer) {
+                chainContainer.innerHTML = '';
+                pData.effectChainOrder.forEach(name => {
+                    let card = document.createElement('div');
+                    card.className = 'effect-card'; card.setAttribute('draggable', 'true');
+                    card.textContent = name;
+                    chainContainer.appendChild(card);
+                });
+            }
+        }
+        container.appendChild(newPage);
+    });
+
+    initDragAndDrop(container);
+    book.setFilter('all');
+}
+
 function importJSON(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -489,52 +543,44 @@ function importJSON(event) {
     reader.onload = function(e) {
         try {
             const data = JSON.parse(e.target.result);
-            if (!Array.isArray(data)) throw new Error("Format JSON invalide");
-            const container = document.getElementById("livre-container");
-            container.innerHTML = "";
-
-            data.forEach((pData) => {
-                let templateId = (pData.type === 'boss') ? 'template-boss' : 'template-mooer';
-                let template = document.getElementById(templateId);
-                if (!template) throw new Error("Modèle introuvable : " + templateId);
-                
-                let newPage = template.content.cloneNode(true).querySelector('.page');
-
-                newPage.querySelectorAll('input[type="text"]').forEach((input, i) => { if (pData.inputs[i] !== undefined) input.value = pData.inputs[i]; });
-                newPage.querySelectorAll('select').forEach((sel, i) => {
-                    if (pData.selects[i]) {
-                        sel.innerHTML = '';
-                        pData.selects[i].options.forEach(optVal => {
-                            let opt = document.createElement('option');
-                            opt.value = optVal; opt.textContent = optVal;
-                            sel.appendChild(opt);
-                        });
-                        sel.selectedIndex = pData.selects[i].selectedIndex;
-                    }
-                });
-
-                if (pData.effectChainOrder) {
-                    let chainContainer = newPage.querySelector('.effect-chain-container');
-                    if (chainContainer) {
-                        chainContainer.innerHTML = '';
-                        pData.effectChainOrder.forEach(name => {
-                            let card = document.createElement('div');
-                            card.className = 'effect-card'; card.setAttribute('draggable', 'true');
-                            card.textContent = name;
-                            chainContainer.appendChild(card);
-                        });
-                    }
-                }
-                container.appendChild(newPage);
-            });
-
-            initDragAndDrop(container);
-            book.setFilter('all');
+            loadSongbookData(data);
+            saveToLocalStorage();
             alert("Sauvegarde importée avec succès !");
         } catch (err) { alert("Erreur d'importation : " + err.message); }
     };
     reader.readAsText(file);
     event.target.value = '';
+}
+
+/* ---------- PERSISTANCE AUTOMATIQUE (localStorage) ---------- */
+const STORAGE_KEY = 'songbookEffetsData';
+let saveTimeout = null;
+
+function saveToLocalStorage() {
+    try {
+        localStorage.setItem(STORAGE_KEY, getJSONStringData());
+    } catch (err) {
+        console.error("Erreur de sauvegarde locale :", err);
+    }
+}
+
+function scheduleSave() {
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(saveToLocalStorage, 400);
+}
+
+function loadFromLocalStorage() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (!Array.isArray(data) || data.length === 0) return false;
+        loadSongbookData(data);
+        return true;
+    } catch (err) {
+        console.error("Erreur de chargement local, données de départ conservées :", err);
+        return false;
+    }
 }
 </script>
 </body>
