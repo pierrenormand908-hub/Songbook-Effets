@@ -77,7 +77,7 @@
         .mooer-header h2 { color: #27ae60; }
         .header-inputs { display: flex; gap: 6px; width: 65%; justify-content: flex-end; align-items: center; }
         .input-patch-name { flex: 1; font-weight: bold; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; padding: 4px 6px; min-width: 0; background: #fff; }
-        .input-patch-slot { width: 42px; font-weight: bold; font-size: 12px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px 2px; background: #fff; color: #d35400; }
+        .input-patch-slot { width: 42px; font-weight: bold; font-size: 12px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px 2px; background: #fff; color: #27ae60; }
         .page-contenu-interne { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 8px; padding-bottom: 8px; min-height: 0; box-sizing: border-box; width: 100%; }
         .grid-effets { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; box-sizing: border-box; }
         .bloc-effet, .bloc-effet-bottom { border: 1px solid #dcdcdc; padding: 6px; border-radius: 8px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 4px; box-sizing: border-box; min-width: 0; }
@@ -96,6 +96,7 @@
         .effect-chain-container { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; background: #fff; border: 1.5px dashed #27ae60; border-radius: 6px; padding: 4px; gap: 4px; min-height: 40px; user-select: none; }
         .effect-card { flex: 1; min-width: 42px; height: 30px; background: #27ae60; color: #fff; font-size: 8px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-align: center; border-radius: 4px; cursor: grab; box-shadow: 0 1px 3px rgba(0,0,0,0.2); touch-action: none; }
         .effect-card.dragging { opacity: 0.4; }
+        .effect-card.disabled { background: #95a5a6 !important; opacity: 0.7; text-decoration: line-through; }
         .bande-navigation { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px 10px; border-top: 2px solid #cbd5e1; gap: 8px; background: #dfe4ea; flex-shrink: 0; margin-top: auto; }
         .nav-ligne-haut, .nav-ligne-bas { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px; }
         .btn-toolbar { background: #2c3e50; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
@@ -169,7 +170,7 @@
         </div>
     </div>
 
-    <!-- PAGE MODÈLE MOOER -->
+    <!-- PAGE DE DÉPART PERMANENTE POUR MOOER -->
     <div class="page" data-type="mooer-empty">
         <div class="toolbar-interne">
             <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
@@ -184,17 +185,68 @@
         </div>
         <div class="page-contenu-interne">
             <div class="grid-effets">
-                <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">DYNA</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="COMP">COMP</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Thresh:</span> <input type="text" class="val-c" value="50"></div><div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c" value="50"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="TUBE DRIVE">TUBE DRIVE</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c" value="50"></div><div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c" value="50"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">AMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="65 US TWIN">65 US TWIN</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c" value="50"></div><div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c" value="50"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #7f8c8d;">CAB</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="US 2x12">US 2x12</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">MOD</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="CHORUS">CHORUS</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c" value="50"></div><div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c" value="50"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="DIGITAL">DIGITAL</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c" value="50"></div></div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #16a085;">DYNA</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="COMP">COMP</option><option value="TOUCH WAH">TOUCH WAH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Thresh:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Peak:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Ratio:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Range:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Sens:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div>
+                </div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #c0392b;">OD</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="TUBE DRIVE">TUBE DRIVE</option><option value="Fuzz">Fuzz</option><option value="DIST">DIST</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Vol:</span> <input type="text" class="val-c" value="50"></div>
+                </div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #d35400;">AMP</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="65 US TWIN">65 US TWIN</option><option value="UK 800">UK 800</option><option value="MALI 900">MALI 900</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Mid:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Treble:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Presence:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Master:</span> <input type="text" class="val-c" value="50"></div>
+                </div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #7f8c8d;">CAB</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="US 2x12">US 2x12</option><option value="UK 4x12">UK 4x12</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                </div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #2980b9;">MOD</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="CHORUS">CHORUS</option><option value="FLANGER">FLANGER</option><option value="PHASER">PHASER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Bit:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Mix:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Rise:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Sample:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Q:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div>
+                </div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #8e44ad;">DELAY</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="DIGITAL">DIGITAL</option><option value="ANALOG">ANALOG</option><option value="TAPE">TAPE</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c" value="50"></div>
+                    <div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c" value="50"></div>
+                </div>
             </div>
             <div class="bloc-effet-bottom">
                 <span class="titre-effet" style="color: #27ae60;">REVERBE</span>
-                <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="ROOM">ROOM</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="ROOM">ROOM</option><option value="HALL">HALL</option><option value="CHURCH">CHURCH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                <div class="champ-ligne"><span>Pre Delay:</span> <input type="text" class="val-c" value="50"></div>
                 <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div>
+                <div class="champ-ligne"><span>Decay:</span> <input type="text" class="val-c" value="50"></div>
+                <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c" value="50"></div>
             </div>
             <div class="effect-chain-box">
                 <span class="effect-chain-title">Ordre de la chaîne d'effets</span>
@@ -287,17 +339,68 @@
         </div>
         <div class="page-contenu-interne">
             <div class="grid-effets">
-                <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">DYNA</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="COMP">COMP</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Thresh:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="TUBE DRIVE">TUBE DRIVE</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">AMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="65 US TWIN">65 US TWIN</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #7f8c8d;">CAB</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="US 2x12">US 2x12</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">MOD</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="CHORUS">CHORUS</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="DIGITAL">DIGITAL</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #16a085;">DYNA</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="COMP">COMP</option><option value="TOUCH WAH">TOUCH WAH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Thresh:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Peak:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Ratio:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Range:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Sens:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div>
+                </div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #c0392b;">OD</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="TUBE DRIVE">TUBE DRIVE</option><option value="Fuzz">Fuzz</option><option value="DIST">DIST</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Vol:</span> <input type="text" class="val-c"></div>
+                </div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #d35400;">AMP</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="65 US TWIN">65 US TWIN</option><option value="UK 800">UK 800</option><option value="MALI 900">MALI 900</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Mid:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Treble:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Presence:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Master:</span> <input type="text" class="val-c"></div>
+                </div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #7f8c8d;">CAB</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="US 2x12">US 2x12</option><option value="UK 4x12">UK 4x12</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                </div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #2980b9;">MOD</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="CHORUS">CHORUS</option><option value="FLANGER">FLANGER</option><option value="PHASER">PHASER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Bit:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Mix:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Rise:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Sample:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Q:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div>
+                </div>
+                <div class="bloc-effet">
+                    <span class="titre-effet" style="color: #8e44ad;">DELAY</span>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="DIGITAL">DIGITAL</option><option value="ANALOG">ANALOG</option><option value="TAPE">TAPE</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c"></div>
+                    <div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c"></div>
+                </div>
             </div>
             <div class="bloc-effet-bottom">
                 <span class="titre-effet" style="color: #27ae60;">REVERBE</span>
-                <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="ROOM">ROOM</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="ROOM">ROOM</option><option value="HALL">HALL</option><option value="CHURCH">CHURCH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                <div class="champ-ligne"><span>Pre Delay:</span> <input type="text" class="val-c"></div>
                 <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div>
+                <div class="champ-ligne"><span>Decay:</span> <input type="text" class="val-c"></div>
+                <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div>
             </div>
             <div class="effect-chain-box">
                 <span class="effect-chain-title">Ordre de la chaîne d'effets</span>
@@ -371,12 +474,37 @@ window.addEventListener("DOMContentLoaded", () => {
 function initDragAndDrop(parentElement) {
     parentElement.querySelectorAll('.effect-chain-container').forEach(container => {
         let draggedItem = null;
+        let isClick = true;
+
         container.querySelectorAll('.effect-card').forEach(card => {
-            card.addEventListener('dragstart', function() { draggedItem = this; setTimeout(() => this.classList.add('dragging'), 0); });
-            card.addEventListener('dragend', function() { this.classList.remove('dragging'); draggedItem = null; scheduleSave(); });
-            card.addEventListener('touchstart', function() { draggedItem = this; this.classList.add('dragging'); }, {passive: true});
+            card.addEventListener('dragstart', function() { 
+                draggedItem = this; 
+                isClick = false;
+                setTimeout(() => this.classList.add('dragging'), 0); 
+            });
+            
+            card.addEventListener('dragend', function() { 
+                this.classList.remove('dragging'); 
+                draggedItem = null; 
+                scheduleSave(); 
+            });
+
+            card.addEventListener('click', function(e) {
+                if (isClick) {
+                    this.classList.toggle('disabled');
+                    scheduleSave();
+                }
+            });
+
+            card.addEventListener('touchstart', function() { 
+                draggedItem = this; 
+                isClick = true;
+                this.classList.add('dragging'); 
+            }, {passive: true});
+
             card.addEventListener('touchmove', function(e) {
                 if (!draggedItem) return;
+                isClick = false;
                 let touch = e.touches[0];
                 let target = document.elementFromPoint(touch.clientX, touch.clientY);
                 if (target && target.classList.contains('effect-card') && target !== draggedItem) {
@@ -385,10 +513,19 @@ function initDragAndDrop(parentElement) {
                     else container.insertBefore(draggedItem, target);
                 }
             }, {passive: true});
-            card.addEventListener('touchend', () => { if (draggedItem) { draggedItem.classList.remove('dragging'); draggedItem = null; scheduleSave(); } });
+
+            card.addEventListener('touchend', () => { 
+                if (draggedItem) { 
+                    draggedItem.classList.remove('dragging'); 
+                    draggedItem = null; 
+                    scheduleSave(); 
+                } 
+            });
         });
+
         container.addEventListener('dragover', e => {
             e.preventDefault();
+            isClick = false;
             const afterElement = [...container.querySelectorAll('.effect-card:not(.dragging)')].reduce((closest, child) => {
                 const box = child.getBoundingClientRect();
                 const offset = e.clientX - box.left - box.width / 2;
@@ -486,7 +623,10 @@ function getJSONStringData() {
             type: type === 'mooer-empty' ? 'mooer' : type,
             inputs: Array.from(page.querySelectorAll('input[type="text"]')).map(i => i.value),
             selects: Array.from(page.querySelectorAll('select')).map(s => ({ options: Array.from(s.options).map(o => o.value), selectedIndex: s.selectedIndex })),
-            effectChainOrder: Array.from(page.querySelectorAll('.effect-chain-container .effect-card')).map(c => c.textContent.trim())
+            effectChainOrder: Array.from(page.querySelectorAll('.effect-chain-container .effect-card')).map(c => ({
+                name: c.textContent.trim(),
+                disabled: c.classList.contains('disabled')
+            }))
         });
     });
     return JSON.stringify(songbookData, null, 2);
@@ -521,10 +661,15 @@ function loadSongbookData(data) {
             let chainContainer = newPage.querySelector('.effect-chain-container');
             if (chainContainer) {
                 chainContainer.innerHTML = '';
-                pData.effectChainOrder.forEach(name => {
+                pData.effectChainOrder.forEach(item => {
                     let card = document.createElement('div');
-                    card.className = 'effect-card'; card.setAttribute('draggable', 'true');
+                    card.className = 'effect-card'; 
+                    card.setAttribute('draggable', 'true');
+                    let name = typeof item === 'object' ? item.name : item;
+                    let isDisabled = typeof item === 'object' ? item.disabled : false;
+                    
                     card.textContent = name;
+                    if (isDisabled) card.classList.add('disabled');
                     chainContainer.appendChild(card);
                 });
             }
