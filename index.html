@@ -78,7 +78,7 @@
         .header-inputs { display: flex; gap: 6px; width: 65%; justify-content: flex-end; align-items: center; }
         .input-patch-name { flex: 1; font-weight: bold; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; padding: 4px 6px; min-width: 0; background: #fff; }
         .input-patch-slot { width: 42px; font-weight: bold; font-size: 12px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 4px 2px; background: #fff; color: #27ae60; }
-        .page-contenu-interne { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 8px; padding-bottom: 8px; min-height: 0; box-sizing: border-box; width: 100%; }
+        .page-contenu-interne { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 8px; padding-bottom: 4px; min-height: 0; box-sizing: border-box; width: 100%; }
         .grid-effets { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; box-sizing: border-box; }
         .bloc-effet, .bloc-effet-bottom { border: 1px solid #dcdcdc; padding: 6px; border-radius: 8px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 4px; box-sizing: border-box; min-width: 0; }
         .bloc-effet-bottom { border: 1.5px solid #dcdcdc; padding: 8px; gap: 6px; width: 100%; }
@@ -91,21 +91,21 @@
         .btn-add-option { background: #27ae60; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; padding: 3px 6px; font-size: 10px; flex-shrink: 0; }
         input[type="text"] { padding: 3px 4px; font-size: 10px; border: 1px solid #ccc; border-radius: 4px; background: #fff; box-sizing: border-box; }
         input.val-c { width: 36px; text-align: center; font-size: 10px; font-weight: bold; padding: 3px 2px; background: #fdfdfd; border: 1px solid #bbb; flex-shrink: 0; }
-        .effect-chain-box { border: 1.5px solid #27ae60; border-radius: 8px; background: #f0fdf4; padding: 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; width: 100%; }
+        .effect-chain-box { border: 1.5px solid #27ae60; border-radius: 8px; background: #f0fdf4; padding: 6px 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; width: 100%; flex-shrink: 0; margin-bottom: 6px; }
         .effect-chain-title { font-size: 10px; font-weight: bold; color: #27ae60; text-transform: uppercase; }
-        .effect-chain-container { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; background: #fff; border: 1.5px dashed #27ae60; border-radius: 6px; padding: 4px; gap: 4px; min-height: 40px; user-select: none; }
-        .effect-card { flex: 1; min-width: 42px; height: 30px; background: #27ae60; color: #fff; font-size: 8px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-align: center; border-radius: 4px; cursor: grab; box-shadow: 0 1px 3px rgba(0,0,0,0.2); touch-action: none; }
-        .effect-card.dragging { opacity: 0.4; }
+        .effect-chain-container { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; background: #fff; border: 1.5px dashed #27ae60; border-radius: 6px; padding: 4px; gap: 4px; min-height: 36px; user-select: none; }
+        .effect-card { flex: 1; min-width: 40px; height: 28px; background: #27ae60; color: #fff; font-size: 8px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-align: center; border-radius: 4px; cursor: grab; box-shadow: 0 1px 3px rgba(0,0,0,0.2); touch-action: none; }
+        .effect-card.dragging { opacity: 0.4; pointer-events: none; }
         .effect-card.disabled { background: #95a5a6 !important; opacity: 0.7; text-decoration: line-through; }
-        .bande-navigation { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px 10px; border-top: 2px solid #cbd5e1; gap: 8px; background: #dfe4ea; flex-shrink: 0; margin-top: auto; }
+        .bande-navigation { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 8px 10px; border-top: 2px solid #cbd5e1; gap: 6px; background: #dfe4ea; flex-shrink: 0; margin-top: auto; }
         .nav-ligne-haut, .nav-ligne-bas { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px; }
         .btn-toolbar { background: #2c3e50; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
-        .btn-nav { background: #007aff; color: #fff; border: none; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
-        .btn-filter-boss { background: #d35400; color: #fff; border: none; padding: 10px 14px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
-        .btn-filter-mooer { background: #27ae60; color: #fff; border: none; padding: 10px 14px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
-        .btn-add-boss { background: #e66400; color: #fff; border: none; padding: 10px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
-        .btn-add-mooer { background: #27ae60; color: #fff; border: none; padding: 10px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
-        .btn-del-page { background: #c0392b; color: #fff; border: none; padding: 10px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .btn-nav { background: #007aff; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .btn-filter-boss { background: #d35400; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .btn-filter-mooer { background: #27ae60; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .btn-add-boss { background: #e66400; color: #fff; border: none; padding: 8px 10px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .btn-add-mooer { background: #27ae60; color: #fff; border: none; padding: 8px 10px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; flex: 1; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .btn-del-page { background: #c0392b; color: #fff; border: none; padding: 8px 10px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
         .modal { display: none; position: fixed; z-index: 20; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
         .modal-content { background-color: #fff; padding: 15px; border-radius: 8px; width: 260px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 10px; }
         .modal-content h3 { margin: 0; font-size: 12px; color: #333; }
@@ -135,18 +135,18 @@
         </div>
         <div class="page-contenu-interne">
             <div class="grid-effets">
-                <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">COMP / FX1</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="COMP">COMP</option><option value="LIMITER">LIMITER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Sustain:</span> <input type="text" class="val-c" value="24"></div><div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c" value="62"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD / DS</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="TURBO OD">TURBO OD</option><option value="BOOSTER">BOOSTER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Drive:</span> <input type="text" class="val-c" value="64"></div><div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c" value="50"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">PREAMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="Extreme Lead">Extreme Lead</option><option value="CLEAN">CLEAN</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c" value="73"></div><div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c" value="66"></div><div class="champ-ligne"><span>Middle:</span> <input type="text" class="val-c" value="15"></div><div class="champ-ligne"><span>Treble:</span> <input type="text" class="val-c" value="29"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">EQ / FX2</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="EQ">EQ</option><option value="PHASER">PHASER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>B-Cut:</span> <input type="text" class="val-c" value="0"></div><div class="champ-ligne"><span>M-Eq:</span> <input type="text" class="val-c" value="+2"></div><div class="champ-ligne"><span>T-Cut:</span> <input type="text" class="val-c" value="0"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #27ae60;">MODULATION</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="CHORUS">CHORUS</option><option value="FLANGER">FLANGER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c" value="63"></div><div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c" value="75"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="1-99ms">1-99ms</option><option value="ANALOG">ANALOG</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c" value="92"></div><div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c" value="33"></div><div class="champ-ligne"><span>E.Level:</span> <input type="text" class="val-c" value="45"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">COMP / FX1</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="COMP">COMP</option><option value="LIMITER">LIMITER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Sustain:</span> <input type="text" class="val-c" value="24"></div><div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c" value="62"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD / DS</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="TURBO OD">TURBO OD</option><option value="BOOSTER">BOOSTER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Drive:</span> <input type="text" class="val-c" value="64"></div><div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c" value="50"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">PREAMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="Extreme Lead">Extreme Lead</option><option value="CLEAN">CLEAN</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c" value="73"></div><div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c" value="66"></div><div class="champ-ligne"><span>Middle:</span> <input type="text" class="val-c" value="15"></div><div class="champ-ligne"><span>Treble:</span> <input type="text" class="val-c" value="29"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">EQ / FX2</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="EQ">EQ</option><option value="PHASER">PHASER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>B-Cut:</span> <input type="text" class="val-c" value="0"></div><div class="champ-ligne"><span>M-Eq:</span> <input type="text" class="val-c" value="+2"></div><div class="champ-ligne"><span>T-Cut:</span> <input type="text" class="val-c" value="0"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #27ae60;">MODULATION</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="CHORUS">CHORUS</option><option value="FLANGER">FLANGER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c" value="63"></div><div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c" value="75"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="1-99ms">1-99ms</option><option value="ANALOG">ANALOG</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c" value="92"></div><div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c" value="33"></div><div class="champ-ligne"><span>E.Level:</span> <input type="text" class="val-c" value="45"></div></div>
             </div>
             <div class="bloc-effet-bottom">
                 <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
                 <div class="champ-ligne">
-                    <span>Reverb: <select style="width: 100%;"><option value="HALL">HALL</option></select><input type="text" class="val-c" value="25"></span>
-                    <span>Pedal FX: <select style="width: 100%;"><option value="WAH">WAH</option></select></span>
+                    <span>Reverb: <select style="width: 100%;"><option value="">-- Aucun --</option><option value="HALL">HALL</option></select><input type="text" class="val-c" value="25"></span>
+                    <span>Pedal FX: <select style="width: 100%;"><option value="">-- Aucun --</option><option value="WAH">WAH</option></select></span>
                 </div>
                 <div class="champ-ligne">
                     <span>NS (Thresh): <input type="text" class="val-c" value="45"></span>
@@ -187,7 +187,7 @@
             <div class="grid-effets">
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #16a085;">DYNA</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="COMP">COMP</option><option value="TOUCH WAH">TOUCH WAH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="COMP">COMP</option><option value="TOUCH WAH">TOUCH WAH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                     <div class="champ-ligne"><span>Thresh:</span> <input type="text" class="val-c" value="50"></div>
                     <div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c" value="50"></div>
                     <div class="champ-ligne"><span>Peak:</span> <input type="text" class="val-c" value="50"></div>
@@ -199,14 +199,14 @@
                 </div>
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #c0392b;">OD</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="TUBE DRIVE">TUBE DRIVE</option><option value="Fuzz">Fuzz</option><option value="DIST">DIST</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="TUBE DRIVE">TUBE DRIVE</option><option value="Fuzz">Fuzz</option><option value="DIST">DIST</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                     <div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c" value="50"></div>
                     <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c" value="50"></div>
                     <div class="champ-ligne"><span>Vol:</span> <input type="text" class="val-c" value="50"></div>
                 </div>
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #d35400;">AMP</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="65 US TWIN">65 US TWIN</option><option value="UK 800">UK 800</option><option value="MALI 900">MALI 900</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="65 US TWIN">65 US TWIN</option><option value="UK 800">UK 800</option><option value="MALI 900">MALI 900</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                     <div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c" value="50"></div>
                     <div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c" value="50"></div>
                     <div class="champ-ligne"><span>Mid:</span> <input type="text" class="val-c" value="50"></div>
@@ -216,11 +216,11 @@
                 </div>
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #7f8c8d;">CAB</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="US 2x12">US 2x12</option><option value="UK 4x12">UK 4x12</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="US 2x12">US 2x12</option><option value="UK 4x12">UK 4x12</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                 </div>
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #2980b9;">MOD</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="CHORUS">CHORUS</option><option value="FLANGER">FLANGER</option><option value="PHASER">PHASER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="CHORUS">CHORUS</option><option value="FLANGER">FLANGER</option><option value="PHASER">PHASER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                     <div class="champ-ligne"><span>Bit:</span> <input type="text" class="val-c" value="50"></div>
                     <div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c" value="50"></div>
                     <div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c" value="50"></div>
@@ -234,7 +234,7 @@
                 </div>
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #8e44ad;">DELAY</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="DIGITAL">DIGITAL</option><option value="ANALOG">ANALOG</option><option value="TAPE">TAPE</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="DIGITAL">DIGITAL</option><option value="ANALOG">ANALOG</option><option value="TAPE">TAPE</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                     <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div>
                     <div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c" value="50"></div>
                     <div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c" value="50"></div>
@@ -242,17 +242,18 @@
             </div>
             <div class="bloc-effet-bottom">
                 <span class="titre-effet" style="color: #27ae60;">REVERBE</span>
-                <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="ROOM">ROOM</option><option value="HALL">HALL</option><option value="CHURCH">CHURCH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="ROOM">ROOM</option><option value="HALL">HALL</option><option value="CHURCH">CHURCH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                 <div class="champ-ligne"><span>Pre Delay:</span> <input type="text" class="val-c" value="50"></div>
                 <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c" value="50"></div>
                 <div class="champ-ligne"><span>Decay:</span> <input type="text" class="val-c" value="50"></div>
                 <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c" value="50"></div>
             </div>
-            <div class="effect-chain-box">
-                <span class="effect-chain-title">Ordre de la chaîne d'effets</span>
-                <div class="effect-chain-container">
-                    <div class="effect-card" draggable="true">DYNA</div><div class="effect-card" draggable="true">OD</div><div class="effect-card" draggable="true">AMP</div><div class="effect-card" draggable="true">CAB</div><div class="effect-card" draggable="true">MOD</div><div class="effect-card" draggable="true">DELAY</div><div class="effect-card" draggable="true">REVERBE</div>
-                </div>
+        </div>
+        <!-- Chaîne d'effets fixe juste au-dessus de la navigation -->
+        <div class="effect-chain-box">
+            <span class="effect-chain-title">Ordre de la chaîne d'effets</span>
+            <div class="effect-chain-container">
+                <div class="effect-card" draggable="true">DYNA</div><div class="effect-card" draggable="true">OD</div><div class="effect-card" draggable="true">AMP</div><div class="effect-card" draggable="true">CAB</div><div class="effect-card" draggable="true">MOD</div><div class="effect-card" draggable="true">DELAY</div><div class="effect-card" draggable="true">REVERBE</div>
             </div>
         </div>
         <div class="bande-navigation">
@@ -288,18 +289,18 @@
         </div>
         <div class="page-contenu-interne">
             <div class="grid-effets">
-                <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">COMP / FX1</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="COMP">COMP</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Sustain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD / DS</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="TURBO OD">TURBO OD</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Drive:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">PREAMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="Extreme Lead">Extreme Lead</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Middle:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Treble:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">EQ / FX2</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="EQ">EQ</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>B-Cut:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>M-Eq:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>T-Cut:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #27ae60;">MODULATION</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="CHORUS">CHORUS</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
-                <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="1-99ms">1-99ms</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>E.Level:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">COMP / FX1</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="COMP">COMP</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Sustain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD / DS</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="TURBO OD">TURBO OD</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Drive:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">PREAMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="Extreme Lead">Extreme Lead</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Middle:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Treble:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">EQ / FX2</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="EQ">EQ</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>B-Cut:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>M-Eq:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>T-Cut:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #27ae60;">MODULATION</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="CHORUS">CHORUS</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="1-99ms">1-99ms</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>E.Level:</span> <input type="text" class="val-c"></div></div>
             </div>
             <div class="bloc-effet-bottom">
                 <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
                 <div class="champ-ligne">
-                    <span>Reverb: <select style="width: 100%;"><option value="HALL">HALL</option></select><input type="text" class="val-c"></span>
-                    <span>Pedal FX: <select style="width: 100%;"><option value="WAH">WAH</option></select></span>
+                    <span>Reverb: <select style="width: 100%;"><option value="">-- Aucun --</option><option value="HALL">HALL</option></select><input type="text" class="val-c"></span>
+                    <span>Pedal FX: <select style="width: 100%;"><option value="">-- Aucun --</option><option value="WAH">WAH</option></select></span>
                 </div>
                 <div class="champ-ligne">
                     <span>NS (Thresh): <input type="text" class="val-c"></span>
@@ -341,7 +342,7 @@
             <div class="grid-effets">
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #16a085;">DYNA</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="COMP">COMP</option><option value="TOUCH WAH">TOUCH WAH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="COMP">COMP</option><option value="TOUCH WAH">TOUCH WAH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                     <div class="champ-ligne"><span>Thresh:</span> <input type="text" class="val-c"></div>
                     <div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c"></div>
                     <div class="champ-ligne"><span>Peak:</span> <input type="text" class="val-c"></div>
@@ -353,14 +354,14 @@
                 </div>
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #c0392b;">OD</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="TUBE DRIVE">TUBE DRIVE</option><option value="Fuzz">Fuzz</option><option value="DIST">DIST</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="TUBE DRIVE">TUBE DRIVE</option><option value="Fuzz">Fuzz</option><option value="DIST">DIST</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                     <div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div>
                     <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div>
                     <div class="champ-ligne"><span>Vol:</span> <input type="text" class="val-c"></div>
                 </div>
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #d35400;">AMP</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="65 US TWIN">65 US TWIN</option><option value="UK 800">UK 800</option><option value="MALI 900">MALI 900</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="65 US TWIN">65 US TWIN</option><option value="UK 800">UK 800</option><option value="MALI 900">MALI 900</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                     <div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div>
                     <div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c"></div>
                     <div class="champ-ligne"><span>Mid:</span> <input type="text" class="val-c"></div>
@@ -370,11 +371,11 @@
                 </div>
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #7f8c8d;">CAB</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="US 2x12">US 2x12</option><option value="UK 4x12">UK 4x12</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="US 2x12">US 2x12</option><option value="UK 4x12">UK 4x12</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                 </div>
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #2980b9;">MOD</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="CHORUS">CHORUS</option><option value="FLANGER">FLANGER</option><option value="PHASER">PHASER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="CHORUS">CHORUS</option><option value="FLANGER">FLANGER</option><option value="PHASER">PHASER</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                     <div class="champ-ligne"><span>Bit:</span> <input type="text" class="val-c"></div>
                     <div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c"></div>
                     <div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c"></div>
@@ -388,7 +389,7 @@
                 </div>
                 <div class="bloc-effet">
                     <span class="titre-effet" style="color: #8e44ad;">DELAY</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="DIGITAL">DIGITAL</option><option value="ANALOG">ANALOG</option><option value="TAPE">TAPE</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="DIGITAL">DIGITAL</option><option value="ANALOG">ANALOG</option><option value="TAPE">TAPE</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                     <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div>
                     <div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c"></div>
                     <div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c"></div>
@@ -396,17 +397,18 @@
             </div>
             <div class="bloc-effet-bottom">
                 <span class="titre-effet" style="color: #27ae60;">REVERBE</span>
-                <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="ROOM">ROOM</option><option value="HALL">HALL</option><option value="CHURCH">CHURCH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="">-- Aucun --</option><option value="ROOM">ROOM</option><option value="HALL">HALL</option><option value="CHURCH">CHURCH</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
                 <div class="champ-ligne"><span>Pre Delay:</span> <input type="text" class="val-c"></div>
                 <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div>
                 <div class="champ-ligne"><span>Decay:</span> <input type="text" class="val-c"></div>
                 <div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div>
             </div>
-            <div class="effect-chain-box">
-                <span class="effect-chain-title">Ordre de la chaîne d'effets</span>
-                <div class="effect-chain-container">
-                    <div class="effect-card" draggable="true">DYNA</div><div class="effect-card" draggable="true">OD</div><div class="effect-card" draggable="true">AMP</div><div class="effect-card" draggable="true">CAB</div><div class="effect-card" draggable="true">MOD</div><div class="effect-card" draggable="true">DELAY</div><div class="effect-card" draggable="true">REVERBE</div>
-                </div>
+        </div>
+        <!-- Chaîne d'effets fixe juste au-dessus de la navigation -->
+        <div class="effect-chain-box">
+            <span class="effect-chain-title">Ordre de la chaîne d'effets</span>
+            <div class="effect-chain-container">
+                <div class="effect-card" draggable="true">DYNA</div><div class="effect-card" draggable="true">OD</div><div class="effect-card" draggable="true">AMP</div><div class="effect-card" draggable="true">CAB</div><div class="effect-card" draggable="true">MOD</div><div class="effect-card" draggable="true">DELAY</div><div class="effect-card" draggable="true">REVERBE</div>
             </div>
         </div>
         <div class="bande-navigation">
@@ -650,7 +652,7 @@ function loadSongbookData(data) {
                 sel.innerHTML = '';
                 pData.selects[i].options.forEach(optVal => {
                     let opt = document.createElement('option');
-                    opt.value = optVal; opt.textContent = optVal;
+                    opt.value = optVal; opt.textContent = optVal === "" ? "-- Aucun --" : optVal;
                     sel.appendChild(opt);
                 });
                 sel.selectedIndex = pData.selects[i].selectedIndex;
