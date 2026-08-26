@@ -218,59 +218,110 @@
             </div>
         </div>
     </div>
+</div>
 
-    <!-- TEMPLATE MOOER -->
-    <template id="template-mooer">
-        <div class="page" data-type="mooer">
-            <div class="toolbar-interne">
-                <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
-                <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
+<!-- TEMPLATES POUR CLONAGE -->
+<template id="template-boss">
+    <div class="page" data-type="boss">
+        <div class="toolbar-interne">
+            <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
+            <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
+        </div>
+        <div class="header-patch">
+            <h2>Boss ME-80</h2>
+            <div class="header-inputs">
+                <input type="text" class="input-patch-name" placeholder="Nom...">
+                <input type="text" class="input-patch-slot" placeholder="U1-1">
             </div>
-            <div class="header-patch mooer-header">
-                <h2>Mooer P1</h2>
-                <div class="header-inputs">
-                    <input type="text" class="input-patch-name" placeholder="Nom...">
-                    <input type="text" class="input-patch-slot" placeholder="A-1">
-                </div>
+        </div>
+        <div class="page-contenu-interne">
+            <div class="grid-effets">
+                <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">COMP / FX1</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="COMP">COMP</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Sustain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD / DS</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="TURBO OD">TURBO OD</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Drive:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">PREAMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="Extreme Lead">Extreme Lead</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Middle:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Treble:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">EQ / FX2</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="EQ">EQ</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>B-Cut:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>M-Eq:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>T-Cut:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #27ae60;">MODULATION</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="CHORUS">CHORUS</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="1-99ms">1-99ms</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>E.Level:</span> <input type="text" class="val-c"></div></div>
             </div>
-            <div class="page-contenu-interne">
-                <div class="grid-effets">
-                    <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">DYNA</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="COMP">COMP</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Thresh:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c"></div></div>
-                    <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="TUBE DRIVE">TUBE DRIVE</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div></div>
-                    <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">AMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="65 US TWIN">65 US TWIN</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c"></div></div>
-                    <div class="bloc-effet"><span class="titre-effet" style="color: #7f8c8d;">CAB</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="US 2x12">US 2x12</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div></div>
-                    <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">MOD</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="CHORUS">CHORUS</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c"></div></div>
-                    <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="DIGITAL">DIGITAL</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c"></div></div>
+            <div class="bloc-effet-bottom">
+                <span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span>
+                <div class="champ-ligne">
+                    <span>Reverb: <select style="width: 100%;"><option value="HALL">HALL</option></select><input type="text" class="val-c"></span>
+                    <span>Pedal FX: <select style="width: 100%;"><option value="WAH">WAH</option></select></span>
                 </div>
-                <div class="bloc-effet-bottom">
-                    <span class="titre-effet" style="color: #27ae60;">REVERBE</span>
-                    <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="ROOM">ROOM</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
-                    <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div>
-                </div>
-                <div class="effect-chain-box">
-                    <span class="effect-chain-title">Ordre de la chaîne d'effets</span>
-                    <div class="effect-chain-container">
-                        <div class="effect-card" draggable="true">DYNA</div><div class="effect-card" draggable="true">OD</div><div class="effect-card" draggable="true">AMP</div><div class="effect-card" draggable="true">CAB</div><div class="effect-card" draggable="true">MOD</div><div class="effect-card" draggable="true">DELAY</div><div class="effect-card" draggable="true">REVERBE</div>
-                    </div>
-                </div>
-            </div>
-            <div class="bande-navigation">
-                <div class="nav-ligne-haut">
-                    <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
-                    <button class="btn-filter-boss" onclick="book.setFilter('boss')">BOSS</button>
-                    <button class="btn-filter-mooer" onclick="book.setFilter('mooer')">MOOER</button>
-                    <span class="page-indicator" style="font-size: 11px; font-weight: bold; color: #333; min-width: 36px; text-align: center;">Page</span>
-                    <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
-                </div>
-                <div class="nav-ligne-bas">
-                    <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
-                    <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
-                    <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+                <div class="champ-ligne">
+                    <span>NS (Thresh): <input type="text" class="val-c"></span>
+                    <span>Master Vol: <input type="text" class="val-c"></span>
                 </div>
             </div>
         </div>
-    </template>
-</div>
+        <div class="bande-navigation">
+            <div class="nav-ligne-haut">
+                <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
+                <button class="btn-filter-boss" onclick="book.setFilter('boss')">BOSS</button>
+                <button class="btn-filter-mooer" onclick="book.setFilter('mooer')">MOOER</button>
+                <span class="page-indicator" style="font-size: 11px; font-weight: bold; color: #333; min-width: 36px; text-align: center;">Page</span>
+                <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
+            </div>
+            <div class="nav-ligne-bas">
+                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="template-mooer">
+    <div class="page" data-type="mooer">
+        <div class="toolbar-interne">
+            <button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button>
+            <button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button>
+        </div>
+        <div class="header-patch mooer-header">
+            <h2>Mooer P1</h2>
+            <div class="header-inputs">
+                <input type="text" class="input-patch-name" placeholder="Nom...">
+                <input type="text" class="input-patch-slot" placeholder="A-1">
+            </div>
+        </div>
+        <div class="page-contenu-interne">
+            <div class="grid-effets">
+                <div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">DYNA</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="COMP">COMP</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Thresh:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="TUBE DRIVE">TUBE DRIVE</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">AMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="65 US TWIN">65 US TWIN</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #7f8c8d;">CAB</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="US 2x12">US 2x12</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">MOD</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="CHORUS">CHORUS</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c"></div></div>
+                <div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="DIGITAL">DIGITAL</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c"></div></div>
+            </div>
+            <div class="bloc-effet-bottom">
+                <span class="titre-effet" style="color: #27ae60;">REVERBE</span>
+                <div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"><option value="ROOM">ROOM</option></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div>
+                <div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div>
+            </div>
+            <div class="effect-chain-box">
+                <span class="effect-chain-title">Ordre de la chaîne d'effets</span>
+                <div class="effect-chain-container">
+                    <div class="effect-card" draggable="true">DYNA</div><div class="effect-card" draggable="true">OD</div><div class="effect-card" draggable="true">AMP</div><div class="effect-card" draggable="true">CAB</div><div class="effect-card" draggable="true">MOD</div><div class="effect-card" draggable="true">DELAY</div><div class="effect-card" draggable="true">REVERBE</div>
+                </div>
+            </div>
+        </div>
+        <div class="bande-navigation">
+            <div class="nav-ligne-haut">
+                <button class="btn-nav" onclick="book.prev()">◄ Préc.</button>
+                <button class="btn-filter-boss" onclick="book.setFilter('boss')">BOSS</button>
+                <button class="btn-filter-mooer" onclick="book.setFilter('mooer')">MOOER</button>
+                <span class="page-indicator" style="font-size: 11px; font-weight: bold; color: #333; min-width: 36px; text-align: center;">Page</span>
+                <button class="btn-nav" onclick="book.next()">Suiv. ►</button>
+            </div>
+            <div class="nav-ligne-bas">
+                <button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button>
+                <button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button>
+                <button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button>
+            </div>
+        </div>
+    </div>
+</template>
 
 <!-- MODALS -->
 <div id="optionModal" class="modal">
@@ -351,7 +402,7 @@ function saveNewOption() {
     let val = document.getElementById("newOptionText").value.trim();
     if (val && activeSelectElement) {
         let opt = document.createElement("option");
-        opt.value = opt; opt.textContent = val; opt.selected = true;
+        opt.value = val; opt.textContent = val; opt.selected = true;
         activeSelectElement.appendChild(opt);
     }
     closeOptionModal();
@@ -359,14 +410,8 @@ function saveNewOption() {
 
 function addNewBossPage() {
     let container = document.getElementById("livre-container");
-    let bossPage = container.querySelector(".page[data-type='boss']");
-    if (bossPage) {
-        let newPage = bossPage.cloneNode(true);
-        newPage.querySelectorAll("input[type='text']").forEach(i => i.value = "");
-        newPage.querySelectorAll("select").forEach(s => s.selectedIndex = 0);
-        container.appendChild(newPage);
-        book.setFilter('boss'); book.goToLast();
-    }
+    container.appendChild(document.getElementById("template-boss").content.cloneNode(true));
+    book.setFilter('boss'); book.goToLast();
 }
 
 function addNewMooerPage() {
@@ -392,7 +437,6 @@ async function confirmExportFile() {
     const jsonString = getJSONStringData();
     const blob = new Blob([jsonString], { type: "application/json" });
 
-    // Utilise le sélecteur de fichiers natif (ouvre l'app Fichiers / explorateur) si supporté
     if (window.showSaveFilePicker) {
         try {
             const handle = await window.showSaveFilePicker({
@@ -406,7 +450,6 @@ async function confirmExportFile() {
         } catch (err) { if (err.name !== 'AbortError') console.error(err); else return; }
     }
 
-    // Solution alternative mobile (Partage système ou Téléchargement direct propre)
     const file = new File([blob], "SongbookEffets_Backup.json", { type: "application/json" });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
         try { await navigator.share({ files: [file], title: 'Songbook Backup' }); return; } catch (e) {}
@@ -450,18 +493,12 @@ function importJSON(event) {
             const container = document.getElementById("livre-container");
             container.innerHTML = "";
 
-            data.forEach((pData, idx) => {
-                let newPage;
-                if (pData.type === 'boss') {
-                    let div = document.createElement('div');
-                    div.innerHTML = `<div class="page" data-type="boss"><div class="toolbar-interne"><button class="btn-toolbar" onclick="exportJSON()">💾 Enregistrer</button><button class="btn-toolbar" onclick="document.getElementById('importFileInput').click()">📂 Importer</button></div><div class="header-patch"><h2>Boss ME-80</h2><div class="header-inputs"><input type="text" class="input-patch-name"><input type="text" class="input-patch-slot"></div></div><div class="page-contenu-interne"><div class="grid-effets"><div class="bloc-effet"><span class="titre-effet" style="color: #d35400;">COMP / FX1</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Sustain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Attack:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div><div class="bloc-effet"><span class="titre-effet" style="color: #c0392b;">OD / DS</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Drive:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Tone:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div><div class="bloc-effet"><span class="titre-effet" style="color: #2980b9;">PREAMP</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Gain:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Bass:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Middle:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Treble:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div><div class="bloc-effet"><span class="titre-effet" style="color: #16a085;">EQ / FX2</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>B-Cut:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>M-Eq:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>T-Cut:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div><div class="bloc-effet"><span class="titre-effet" style="color: #27ae60;">MODULATION</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Rate:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Depth:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Level:</span> <input type="text" class="val-c"></div></div><div class="bloc-effet"><span class="titre-effet" style="color: #8e44ad;">DELAY</span><div class="champ-ligne"><span>Type:</span><div class="select-container"><select class="select-target"></select><button class="btn-add-option" onclick="openOptionModal(this)">+</button></div></div><div class="champ-ligne"><span>Time:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>Feedback:</span> <input type="text" class="val-c"></div><div class="champ-ligne"><span>E.Level:</span> <input type="text" class="val-c"></div></div></div><div class="bloc-effet-bottom"><span class="titre-effet" style="color: #2c3e50;">REVERB, PEDAL FX &amp; MASTER</span><div class="champ-ligne"><span>Reverb: <select style="width: 100%;"></select><input type="text" class="val-c"></span><span>Pedal FX: <select style="width: 100%;"></select></span></div><div class="champ-ligne"><span>NS (Thresh): <input type="text" class="val-c"></span><span>Master Vol: <input type="text" class="val-c"></span></div></div></div><div class="bande-navigation"><div class="nav-ligne-haut"><button class="btn-nav" onclick="book.prev()">◄ Préc.</button><button class="btn-filter-boss" onclick="book.setFilter('boss')">BOSS</button><button class="btn-filter-mooer" onclick="book.setFilter('mooer')">MOOER</button><span class="page-indicator" style="font-size: 11px; font-weight: bold; color: #333; min-width: 36px; text-align: center;">Page</span><button class="btn-nav" onclick="book.next()">Suiv. ►</button></div><div class="nav-ligne-bas"><button class="btn-add-boss" onclick="addNewBossPage()">+ Boss</button><button class="btn-add-mooer" onclick="addNewMooerPage()">+ Mooer</button><button class="btn-del-page" onclick="deleteCurrentPage()">Suppr.</button></div></div></div>`;
-                    newPage = div.firstChild;
-                } else {
-                    let temp = document.createElement('div');
-                    temp.innerHTML = document.getElementById("template-mooer").innerHTML;
-                    newPage = temp.querySelector('.page');
-                    if (pData.type === 'mooer' && idx === 1) newPage.setAttribute('data-type', 'mooer-empty');
-                }
+            data.forEach((pData) => {
+                let templateId = (pData.type === 'boss') ? 'template-boss' : 'template-mooer';
+                let template = document.getElementById(templateId);
+                if (!template) throw new Error("Modèle introuvable : " + templateId);
+                
+                let newPage = template.content.cloneNode(true).querySelector('.page');
 
                 newPage.querySelectorAll('input[type="text"]').forEach((input, i) => { if (pData.inputs[i] !== undefined) input.value = pData.inputs[i]; });
                 newPage.querySelectorAll('select').forEach((sel, i) => {
